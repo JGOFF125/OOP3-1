@@ -1,6 +1,6 @@
 package products;
 
-/** Shared product structure. Member 1 completes comparison and validation. */
+/** Member 1 completes comparison and validation */
 public abstract class Product implements Comparable<Product> {
     private final double originalPrice;
     private final double updatedPrice;
@@ -31,7 +31,7 @@ public abstract class Product implements Comparable<Product> {
      */
     @Override
     public int compareTo(Product other) {
-        // TODO Member 1: compare calcRealDiff() values.
+        //  Member 1: compare calcRealDiff() values
         throw new UnsupportedOperationException("Product comparison is not implemented yet.");
     }
 }

@@ -1,6 +1,6 @@
 package products;
 
-/** TShirts product. Member 1 implements the adjustment of 0.2. */
+/** Member 1 implements the adjustment  */
 public class TShirts extends Product {
     /**
      * Creates this product.
@@ -14,7 +14,7 @@ public class TShirts extends Product {
     /** @return adjusted absolute price difference */
     @Override
     public double calcRealDiff() {
-        // TODO Member 1: apply the 0.2 adjustment.
+        // Member 1: apply the 0.2 adjustment
         throw new UnsupportedOperationException("TShirts difference is not implemented yet.");
     }
 }

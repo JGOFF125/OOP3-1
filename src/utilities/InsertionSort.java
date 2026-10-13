@@ -2,7 +2,7 @@ package utilities;
 
 import java.util.Comparator;
 
-/** Insertion sort. Member 2 completes this class. */
+/** Member 2 completes this class */
 public class InsertionSort {
     /**
      * Sorts the array directly from largest to smallest.
@@ -11,7 +11,7 @@ public class InsertionSort {
      * @param comparison normal comparison of two elements
      */
     public static <T> void sort(T[] items, Comparator<? super T> comparison) {
-        // TODO Member 2: implement insertion sort without printing or timing.
+        //Member 2: implement insertion sort without printing or timing
         throw new UnsupportedOperationException("Insertion sort is not implemented yet.");
     }
 }
