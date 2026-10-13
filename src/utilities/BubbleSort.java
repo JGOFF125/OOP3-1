@@ -2,16 +2,29 @@ package utilities;
 
 import java.util.Comparator;
 
-/** Bubble sort - Member 2 completes this class. */
+/** Rearranges an array in descending order using bubble sort */
 public class BubbleSort {
     /**
-     * Sorts the array directly from largest to smallest.
+     * Sorts in place using the normal comparator contract, without timing or output
      * @param <T> type of array elements
      * @param items array to rearrange
-     * @param comparison normal comparison of two elements
+     * @param comparison comparison used to determine which element is larger
      */
     public static <T> void sort(T[] items, Comparator<? super T> comparison) {
-        //Member 2: implement bubble sort without printing or timing
-        throw new UnsupportedOperationException("Bubble sort is not implemented yet.");
+        for (int end = items.length - 1; end > 0; end--) {
+            boolean swapped = false;
+            for (int index = 0; index < end; index++) {
+                if (comparison.compare(items[index], items[index + 1]) < 0) {
+                    T temp = items[index];
+                    items[index] = items[index + 1];
+                    items[index + 1] = temp;
+                    swapped = true;
+                }
+            }
+            // No swaps means the remaining items are already in order
+            if (!swapped) {
+                break;
+            }
+        }
     }
 }
