@@ -1,0 +1,11 @@
+# Build files and local Eclipse workspace settings
+/bin/
+/build/
+/dist/
+*.class
+*.jar
+/.metadata/
+*.log
+.DS_Store
+Thumbs.db
+# Keep .project, .classpath, and .settings in Git.
