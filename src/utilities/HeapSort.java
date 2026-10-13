@@ -11,7 +11,7 @@ public class HeapSort {
      * @param comparison normal comparison of two elements
      */
     public static <T> void sort(T[] items, Comparator<? super T> comparison) {
-        // TODO Member 4: implement heap sort without printing or timing.
+        //Member 4: implement heap sort without printing or timing
         throw new UnsupportedOperationException("Heap sort is not implemented yet.");
     }
 }

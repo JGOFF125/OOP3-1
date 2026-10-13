@@ -1,8 +1,8 @@
 # OOP3-1
 
-This is our shared setup for Assignment 1: Complexity and Sorting. We are using Eclipse and Java 21.
+This is our setup for Assignment 1: 
 
-The project structure is ready, but the assignment is not finished. Methods marked `TODO` still need their implementation. They throw an exception instead of pretending to work. Running the driver currently prints a setup message.
+The project structure is ready
 
 ## Open it in Eclipse
 
@@ -23,7 +23,7 @@ There is also an `OOP3-1.launch` configuration with the smallest dataset and sam
 | 3 | Merge, Quick with Median-of-3, timer, JAR export, and final ZIPs | `MergeSort.java`, `QuickSort.java`, `BenchmarkRunner.java`; final packaging |
 | 4 | Heap Sort, command-line parsing, and custom algorithm report | `HeapSort.java`, `CommandLineOptions.java`, `docs/CustomSortAnalysis.md` |
 
-Other Java files listed above are in `src/utilities/`. Members 1, 3, and 4 are placeholders until we assign names. Everyone tests their own files and completes their own Javadoc.
+Other Java files listed above are in `src/utilities/ Members 1, 3, and 4 
 
 This balances smaller classes, simpler sorts, harder sorts, writing, and integration. If someone gets stuck, ask in the group chat early so we can adjust the work.
 
@@ -72,21 +72,19 @@ Test empty arrays, one item, duplicates, already sorted arrays, and mixed values
 
 ## Assignment requirements
 
-- Use a `Product[]` array, not an ArrayList. Read the first line to get its size.
-- Product adjustments: Jeans 0.5, TShirts 0.2, Skirts 0.1, Dresses 0.6, Shorts 0.3, Jackets 0.7, Shoes 0.4.
-- File options: `-f` followed directly by the file path.
-- Comparison options: `-to` original price, `-tu` updated price, `-td` adjusted difference.
-- Sort options: `-sb` Bubble, `-si` Insertion, `-ss` Selection, `-sm` Merge, `-sq` Quick, `-sz` Heap.
-- Options and type letters are case-insensitive and can appear in any order. Explain missing or invalid arguments clearly.
-- Member 1 reports file/data errors, Member 4 reports argument errors, and Member 2 handles expected errors in the driver with useful messages.
-- Read data and select the comparison before starting the timer. Print results after stopping it. Include a unit, such as milliseconds.
-- Each algorithm must support benchmarking through its selected `-s` option. If we compare several runs, start each with the same unsorted input, and copy arrays outside the timed section.
-- For up to 10 products, print all. For 11 to 1,000, print first, last, and every hundredth in between. Above 1,000, use every thousandth instead. Use one-based row positions and avoid printing the last row twice.
-- Show product type, original price, updated price, and calculated difference.
-- Heap Sort must be significantly different from the other five. Ask the instructor if there is any uncertainty about approval.
-- The custom sort report needs original explanation, pseudocode, operation counting for the steps, and complexity analysis. The template is not a completed report.
-
-The supplied datasets contain 10, 1,000, and 1,000,000 products. This repo includes the two smaller files. Copy `res/products3.txt` from the original starting-code ZIP into this project's `res` folder for the largest test; its upload was not completed. Start with `products1.txt`. The quadratic sorts can take a very long time on the largest file, so start testing early. Do not silently skip them or replace them with Java's built-in sorting.
+- Use a `Product[]` array, not an ArrayList. Read the first line to get its size
+- Product adjustments: Jeans 0.5, TShirts 0.2, Skirts 0.1, Dresses 0.6, Shorts 0.3, Jackets 0.7, Shoes 0.4
+- File options: `-f` followed directly by the file path
+- Comparison options: `-to` original price, `-tu` updated price, `-td` adjusted difference
+- Sort options: `-sb` Bubble, `-si` Insertion, `-ss` Selection, `-sm` Merge, `-sq` Quick, `-sz` Heap
+- Options and type letters are case-insensitive and can appear in any order. Explain missing or invalid arguments clearly
+- Member 1 reports file/data errors, Member 4 reports argument errors, and Member 2 handles expected errors in the driver with useful messages
+- Read data and select the comparison before starting the timer. Print results after stopping it. Include a unit, such as milliseconds
+- Each algorithm must support benchmarking through its selected `-s` option If we compare several runs, start each with the same unsorted input, and copy arrays outside the timed section
+- For up to 10 products, print all. For 11 to 1,000, print first, last, and every hundredth in between. Above 1,000, use every thousandth instead. Use one-based row positions and avoid printing the last row twice
+- Show product type, original price, updated price, and calculated differenc
+- Heap Sort must be significantly different from the other five. Ask the instructor if there is any uncertainty about approval
+- The custom sort report needs original explanation, pseudocode, operation counting for the steps, and complexity analysis
 
 ## Run the finished application
 
@@ -103,20 +101,18 @@ java -jar Sort.jar -fres/products1.txt -td -sb
 java -jar Sort.jar -sQ -To -fres/products2.txt
 ```
 
-These are examples for the completed application. The setup driver does not parse arguments yet.
+These are examples for the completed application. The setup driver does not parse arguments yet
 
 ## Final submission
 
 Member 3 handles packaging once everyone's code is merged and checked:
 
-1. Run the application from Eclipse using Java 21. Check all six algorithms and all three comparisons.
-2. Use **File > Export > Java > Runnable JAR file**, select the AppDriver launch configuration, and name it `Sort.jar`.
-3. Run the JAR from a terminal and verify its output and argument errors.
-4. Zip the complete Eclipse project folder using File Explorer. Include `.project`, `.classpath`, `.settings`, `src`, and `res`. Do not zip only the source folder.
+1. Run the application from Eclipse using Java 21. Check all six algorithms and all three comparisons
+2. Use **File > Export > Java > Runnable JAR file**, select the AppDriver launch configuration, and name it `Sort.jar`
+3. Run the JAR from a terminal and verify its output and argument errors
+4. Zip the complete Eclipse project folder using File Explorer. Include `.project`, `.classpath`, `.settings`, `src`, and `res`. Do not zip only the source folder
 5. Test importing that project ZIP into a fresh Eclipse workspace and run it.
-6. Include `Sort.jar`, the complete project ZIP, the finished custom sort report, and the completed marking criteria in the final `A1<GroupName>.zip`.
-7. Only one person submits the group package. Check Brightspace for the deadline.
+6. Include `Sort.jar`, the complete project ZIP, the finished custom sort report, and the completed marking criteria in the final `A1<GroupName>.zip`
+7. Only one person submits the group package, check Brightspace for the deadline
 
-Everyone must approve the completed marking criteria. The assignment says all members must be present for that step, so check with the instructor whether a live group chat is acceptable. Each person also submits their own peer evaluation as instructed.
 
-The original assignment and marking criteria on Brightspace are the final reference if anything here is unclear.

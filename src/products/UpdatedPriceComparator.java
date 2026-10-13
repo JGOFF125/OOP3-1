@@ -2,7 +2,7 @@ package products;
 
 import java.util.Comparator;
 
-/** Compares updated prices. Member 1 completes this class. */
+/** Compares updated prices, Member 1 */
 public class UpdatedPriceComparator implements Comparator<Product> {
     /**
      * Uses the normal Comparator contract; sorts handle descending order.
@@ -12,7 +12,7 @@ public class UpdatedPriceComparator implements Comparator<Product> {
      */
     @Override
     public int compare(Product first, Product second) {
-        // TODO Member 1: compare the updated prices.
+        //Member 1: compare the updated prices
         throw new UnsupportedOperationException("Updated price comparison is not implemented yet.");
     }
 }

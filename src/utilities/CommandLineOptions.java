@@ -1,6 +1,6 @@
 package utilities;
 
-/** Stores the selected options. Member 4 implements argument parsing. */
+/**  Member 4 implements argument parsing here */
 public class CommandLineOptions {
     private final String filePath;
     private final char compareType;
@@ -32,7 +32,7 @@ public class CommandLineOptions {
      * @throws IllegalArgumentException when arguments are missing or invalid
      */
     public static CommandLineOptions parse(String[] args) {
-        // TODO Member 4: keep file path case unchanged and explain invalid inputs.
+        //Member 4: keep file path case unchanged and explain invalid inputs
         throw new UnsupportedOperationException("Argument parsing is not implemented yet.");
     }
 }
