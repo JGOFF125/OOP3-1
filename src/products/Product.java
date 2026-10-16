@@ -32,6 +32,10 @@ public abstract class Product implements Comparable<Product> {
     @Override
     public int compareTo(Product other) {
         //  Member 1: compare calcRealDiff() values
-        throw new UnsupportedOperationException("Product comparison is not implemented yet.");
+    	if (other == null) {
+    		throw new NullPointerException("Product cannot be null.");
+    	}
+    	
+    	return Double.compare(this.calcRealDiff(), other.calcRealDiff());
     }
 }
