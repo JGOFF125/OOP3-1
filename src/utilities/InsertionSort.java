@@ -2,16 +2,24 @@ package utilities;
 
 import java.util.Comparator;
 
-/** Member 2 completes this class */
+/** Rearranges an array in descending order using insertion sort */
 public class InsertionSort {
     /**
-     * Sorts the array directly from largest to smallest.
+     * Sorts in place using the normal comparator contract, without timing or output
      * @param <T> type of array elements
      * @param items array to rearrange
-     * @param comparison normal comparison of two elements
+     * @param comparison comparison used to determine which element is larger
      */
     public static <T> void sort(T[] items, Comparator<? super T> comparison) {
-        //Member 2: implement insertion sort without printing or timing
-        throw new UnsupportedOperationException("Insertion sort is not implemented yet.");
+        for (int index = 1; index < items.length; index++) {
+            T current = items[index];
+            int previous = index - 1;
+            // Move smaller items right to make room for the current item
+            while (previous >= 0 && comparison.compare(items[previous], current) < 0) {
+                items[previous + 1] = items[previous];
+                previous--;
+            }
+            items[previous + 1] = current;
+        }
     }
 }
