@@ -2,7 +2,11 @@
 
 This is our setup for Assignment 1: 
 
-The project structure is ready
+This integration build combines Joaquin, Christian, and Sebastian's ZIPs. Bubble, Insertion, Selection, and Heap work with the real reader, parser, comparisons, timer, and output. Merge and Quick are still unfinished, so this is not ready for final submission.
+
+Read [docs/IntegrationReport.md](docs/IntegrationReport.md) for the source of each part, fixes, verified checks, and remaining work.
+
+Member 3 is currently unassigned; Merge and Quick remain unfinished. The original million-product dataset is included unchanged from Christian's ZIP. A development `Sort.jar` is included for testing the four completed sorts.
 
 ## Open it in Eclipse
 
@@ -10,7 +14,7 @@ The project structure is ready
 2. Clone this repo using GitHub Desktop, or download the ZIP and extract it.
 3. In Eclipse, use **File > Import > General > Existing Projects into Workspace**.
 4. Select the cloned or extracted folder containing `.project`. Import `OOP3-1`.
-5. Run `src/appDomain/AppDriver.java` as a **Java Application**. You should get the setup message.
+5. Run `src/appDomain/AppDriver.java` as a **Java Application**. Use `-fres/products1.txt -td -sz` in the Arguments tab to run Heap Sort.
 
 There is also an `OOP3-1.launch` configuration with the smallest dataset and sample arguments. The working directory should be the project folder. Do not import just the `src` folder.
 
@@ -101,7 +105,7 @@ java -jar Sort.jar -fres/products1.txt -td -sb
 java -jar Sort.jar -sQ -To -fres/products2.txt
 ```
 
-These are examples for the completed application. The setup driver does not parse arguments yet
+The b, i, s, and z options work in this build. The m and q options report that their algorithms are unfinished
 
 ## Final submission
 

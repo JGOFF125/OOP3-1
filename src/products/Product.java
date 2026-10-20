@@ -11,6 +11,10 @@ public abstract class Product implements Comparable<Product> {
      * @param updatedPrice updated price
      */
     public Product(double originalPrice, double updatedPrice) {
+        if (!Double.isFinite(originalPrice) || !Double.isFinite(updatedPrice)
+                || originalPrice < 0 || updatedPrice < 0) {
+            throw new IllegalArgumentException("Prices must be finite, non-negative numbers.");
+        }
         this.originalPrice = originalPrice;
         this.updatedPrice = updatedPrice;
     }
@@ -32,6 +36,10 @@ public abstract class Product implements Comparable<Product> {
     @Override
     public int compareTo(Product other) {
         //  Member 1: compare calcRealDiff() values
-        throw new UnsupportedOperationException("Product comparison is not implemented yet.");
+    	if (other == null) {
+    		throw new NullPointerException("Product cannot be null.");
+    	}
+    	
+    	return Double.compare(this.calcRealDiff(), other.calcRealDiff());
     }
 }

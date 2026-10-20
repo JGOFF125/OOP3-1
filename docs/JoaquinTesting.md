@@ -1,6 +1,6 @@
 # Joaquin's checks
 
-Bubble, Insertion, Selection, ResultPrinter, and AppDriver are implemented. The other members' classes are still unfinished, so the normal driver currently reports that argument parsing is not implemented.
+Bubble, Insertion, Selection, ResultPrinter, and AppDriver are implemented. The integrated parser, products, reader, Heap Sort, and timer now work. Merge and Quick remain unfinished.
 
 ## Run the independent checks
 
@@ -16,14 +16,24 @@ The checks cover empty and single-element arrays, duplicates, ascending and desc
 
 `Arrays.sort()` appears only in the test oracle to calculate expected results. The assignment's production sorts do not call it.
 
-These checks reflect the current scaffold. The driver checks expect Merge, Quick, Heap, and argument parsing to be unfinished; update those checks as the team finishes those components. The test class is outside `src`, so it does not change the Eclipse source path or become part of the runnable application.
+These checks now reflect the integrated build. The driver checks still expect Merge and Quick to be unfinished; update those checks when those algorithms are supplied. The test class is outside `src`, so it does not change the Eclipse source path or become part of the runnable application.
 
 ## Still needed after integration
 
 - Run the actual application with each of the six algorithms and each comparison
 - Verify the real file reader, product calculations, parser, and timer
 - Check mixed-case arguments, argument order, paths with spaces, and invalid inputs
-- Test the original datasets, including the million-product file once restored
+- Repeat all tests when Merge and Quick are integrated; the million-product file is now included
 - Confirm that only sorting is timed and that the JAR runs outside Eclipse
 
-In Eclipse, AppDriver now runs the application instead of printing the old setup message. An unfinished-component message is expected until the team finishes the required dependencies.
+In Eclipse, AppDriver now runs the application instead of printing the old setup message. An unfinished-component message is expected for Merge and Quick only.
+
+## Combined checks
+
+After compiling the production files and both standalone test files as above, run:
+
+```bash
+java -Xmx768m -cp build/checks IntegrationChecks
+```
+
+Christian's original JUnit 5 tests are preserved in `test/products/ProductTest.java`. To run them in Eclipse, add the `test` folder as a source folder and add the JUnit 5 library to the build path. They are kept outside the default production source path so the application has no JUnit runtime dependency.

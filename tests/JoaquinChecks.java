@@ -113,7 +113,7 @@ public class JoaquinChecks {
         for (char algorithm : new char[] {'b', 'i', 's', 'm', 'q', 'z'}) {
             Product[] items = {new TestProduct(4, 0), new TestProduct(10, 0)};
             Runnable task = (Runnable) chooseSort.invoke(null, algorithm, items, comparison);
-            if (algorithm == 'b' || algorithm == 'i' || algorithm == 's') {
+            if (algorithm == 'b' || algorithm == 'i' || algorithm == 's' || algorithm == 'z') {
                 task.run();
                 require(items[0].calcRealDiff() == 5, "Difference route");
             } else {
@@ -128,9 +128,9 @@ public class JoaquinChecks {
         ByteArrayOutputStream captured = new ByteArrayOutputStream();
         try {
             System.setErr(new PrintStream(captured));
-            AppDriver.main(new String[] {"-fres/products1.txt", "-td", "-sb"});
+            AppDriver.main(new String[] {"-fres/products1.txt", "-tx", "-sb"});
         } finally { System.setErr(original); }
-        require(captured.toString().contains("Argument parsing is not implemented"), "Unfinished dependency message");
+        require(captured.toString().contains("Invalid input:"), "Invalid argument message");
     }
 
     /** Stops the checks with a useful failure message */

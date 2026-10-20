@@ -13,6 +13,13 @@ public class UpdatedPriceComparator implements Comparator<Product> {
     @Override
     public int compare(Product first, Product second) {
         //Member 1: compare the updated prices
-        throw new UnsupportedOperationException("Updated price comparison is not implemented yet.");
+    	if (first == null || second == null) {
+    		throw new NullPointerException("Prodcuts cannot be null.");
+    	}
+    	
+    	return Double.compare(
+    			first.getUpdatedPrice(),
+    			second.getUpdatedPrice()
+		);
     }
 }
