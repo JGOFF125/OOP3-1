@@ -6,8 +6,6 @@ This integration build combines Joaquin, Christian, and Sebastian's ZIPs. Bubble
 
 Read [docs/IntegrationReport.md](docs/IntegrationReport.md) for the source of each part, fixes, verified checks, and remaining work.
 
-Member 3 is currently unassigned; Merge and Quick remain unfinished. The original million-product dataset is included unchanged from Christian's ZIP. A development `Sort.jar` is included for testing the four completed sorts.
-
 ## Open it in Eclipse
 
 1. Install a JDK 21, then add it under **Window > Preferences > Java > Installed JREs**. Under **Execution Environments**, select that JDK for **JavaSE-21**.
@@ -18,10 +16,10 @@ Member 3 is currently unassigned; Merge and Quick remain unfinished. The origina
 
 There is also an `OOP3-1.launch` configuration with the smallest dataset and sample arguments. The working directory should be the project folder. Do not import just the `src` folder.
 
-## Who does what
+## Who does what?
 
 | Member | Work | Files |
-| --- | --- | --- |
+| ----- | --- | --- |
 | 1 - Jose | Product model, seven product types, comparisons, and file reading | Everything in `src/products/`, plus `ProductFileReader.java` |
 | 2 - Joaquin | Bubble, Insertion, Selection, output, and connecting the application | `BubbleSort.java`, `InsertionSort.java`, `SelectionSort.java`, `ResultPrinter.java`, `AppDriver.java` |
 | 3 | Merge, Quick with Median-of-3, timer, JAR export, and final ZIPs | `MergeSort.java`, `QuickSort.java`, `BenchmarkRunner.java`; final packaging |
