@@ -1,16 +1,28 @@
 package utilities;
 
-/** Measures only the supplied sorting operation */
+/**
+ * Measures how long a sorting operation takes to run in nanoseconds.
+ */
 public class BenchmarkRunner {
+
     /**
-     * Measures only the supplied sorting task using System.nanoTime().
-     * @param sortingTask sorting call to measure
-     * @return elapsed nanoseconds; the driver displays a measurement unit
+     * Measures the time taken to run a sorting task.
+     * completed by Adeeb
+     * @param sortingTask the action containing the sort operation
+     * @return total time taken in nanoseconds
      */
     public static long measureNanos(Runnable sortingTask) {
-        java.util.Objects.requireNonNull(sortingTask, "Sorting task cannot be null");
-        long start = System.nanoTime();
+        // Stop if no sorting action was provided
+        if (sortingTask == null) {
+            throw new IllegalArgumentException("Sorting task cannot be empty.");
+        }
+
+        // Record start time, run the sort, and record end time
+        long startTime = System.nanoTime();
         sortingTask.run();
-        return System.nanoTime() - start;
+        long endTime = System.nanoTime();
+
+        // Calculate and return the total elapsed nanoseconds
+        return endTime - startTime;
     }
 }
