@@ -20,9 +20,9 @@ There is also an `OOP3-1.launch` configuration with the smallest dataset and sam
 
 | Member | Work | Files |
 | ----- | --- | --- |
-| 1 - Jose | Product model, seven product types, comparisons, and file reading | Everything in `src/products/`, plus `ProductFileReader.java` |
+| 1 - Christian | Product model, seven product types, comparisons, and file reading | Everything in `src/products/`, plus `ProductFileReader.java` |
 | 2 - Joaquin | Bubble, Insertion, Selection, output, and connecting the application | `BubbleSort.java`, `InsertionSort.java`, `SelectionSort.java`, `ResultPrinter.java`, `AppDriver.java` |
-| 3 | Merge, Quick with Median-of-3, timer, JAR export, and final ZIPs | `MergeSort.java`, `QuickSort.java`, `BenchmarkRunner.java`; final packaging |
+| 3 - Adeeb | Merge, Quick with Median-of-3, timer, JAR export, and final ZIPs | `MergeSort.java`, `QuickSort.java`, `BenchmarkRunner.java`; final packaging |
 | 4 - Sebastian | Heap Sort, command-line parsing, and custom algorithm report | `HeapSort.java`, `CommandLineOptions.java`, `docs/CustomSortAnalysis.md` |
 
 Other Java files listed above are in `src/utilities/ Members 1, 3, and 4 
