@@ -1,20 +1,20 @@
 package utilities;
 
 import java.util.Comparator;
-import products.Product;
 
 /**
- * Sorts product arrays from largest to smallest using Merge Sort
+ * Sorts arrays from largest to smallest using Merge Sort
  */
 public class MergeSort {
 
     /**
      * Sorts the array directly from largest to smallest.
      * completed by Adeeb
-     * @param items      product array to rearrange
-     * @param comparison comparator to determine the relative order of products
+     * 
+     * @param items      array to rearrange
+     * @param comparison comparator to determine the relative order of items
      */
-    public static void sort(Product[] items, Comparator<Product> comparison) {
+    public static <T> void sort(T[] items, Comparator<? super T> comparison) {
         //Stop if the array is empty or already has only 1 item
         if (items == null || items.length <= 1) {
             return;
@@ -35,12 +35,13 @@ public class MergeSort {
     }
 
     //Combines two neighboring sorted sections into one larger sorted section from largest to smallest.
-    private static void combineSections(Product[] items, int left, int middle, int right, Comparator<Product> comparison) {
+    @SuppressWarnings("unchecked")
+    private static <T> void combineSections(T[] items, int left, int middle, int right, Comparator<? super T> comparison) {
         int leftLength = middle - left + 1;
         int rightLength = right - middle;
 
-        Product[] leftGroup = new Product[leftLength];
-        Product[] rightGroup = new Product[rightLength];
+        T[] leftGroup = (T[]) new Object[leftLength];
+        T[] rightGroup = (T[]) new Object[rightLength];
 
         //Copy items into temporary holding arrays
         for (int i = 0; i < leftLength; i = i + 1) {

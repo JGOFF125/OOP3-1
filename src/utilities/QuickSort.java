@@ -1,10 +1,9 @@
 package utilities;
 
 import java.util.Comparator;
-import products.Product;
 
 /**
- * Sorts product arrays from largest to smallest using an Quick Sort with Median of 3 pivot selection.
+ * Sorts arrays from largest to smallest using an Quick Sort with Median of 3 pivot selection.
  */
 public class QuickSort {
 
@@ -12,10 +11,10 @@ public class QuickSort {
      * Sorts the array directly from largest to smallest.
      * completed by Adeeb
      * 
-     * @param items      product array to rearrange
-     * @param comparison comparator to determine the relative order of products
+     * @param items      array to rearrange
+     * @param comparison comparator to determine the relative order of items
      */
-    public static void sort(Product[] items, Comparator<Product> comparison) {
+    public static <T> void sort(T[] items, Comparator<? super T> comparison) {
         //Stop if the array is empty or already has only 1 item
         if (items == null || items.length <= 1) {
             return;
@@ -60,11 +59,8 @@ public class QuickSort {
         }
     }
 
-    /**
-     * Rearranges items in a section so larger items move to the left side 
-     * and smaller items move to the right side around a middle benchmark item.
-     */
-    private static int splitSection(Product[] items, int low, int high, Comparator<Product> comparison) {
+    //Rearranges items in a section so larger items move to the left side and smaller items move to the right side around a middle benchmark item.
+    private static <T> int splitSection(T[] items, int low, int high, Comparator<? super T> comparison) {
         //if not enough sections just compare
         if (high - low < 2) {
             if (comparison.compare(items[low], items[high]) < 0) {
@@ -87,7 +83,7 @@ public class QuickSort {
         }
 
         //Move the middle benchmark item out of the way
-        Product pivot = items[mid];
+        T pivot = items[mid];
         swap(items, mid, high - 1);
 
         int i = low;
@@ -116,9 +112,9 @@ public class QuickSort {
         return i;
     }
 
-    //Helper method to swap two products in the array by their index positions.
-    private static void swap(Product[] items, int i, int j) {
-        Product temp = items[i];
+    //Helper method to swap two items in the array by their index positions.
+    private static <T> void swap(T[] items, int i, int j) {
+        T temp = items[i];
         items[i] = items[j];
         items[j] = temp;
     }

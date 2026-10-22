@@ -17,7 +17,7 @@ public class IntegrationChecks {
         for (int n : new int[] {0, 1, 2, 3, 10, 100, 1000}) {
             Integer[] input = new Integer[n];
             for (int i = 0; i < n; i++) input[i] = random.nextInt(20) - 10;
-            for (char algorithm : "bisz".toCharArray()) {
+            for (char algorithm : "biszmq".toCharArray()) {
                 for (Comparator<Integer> cmp : List.of(Comparator.<Integer>naturalOrder(), Comparator.<Integer>reverseOrder())) {
                     Integer[] expected = input.clone(), actual = input.clone();
                     Arrays.sort(expected, cmp.reversed());
@@ -26,12 +26,15 @@ public class IntegrationChecks {
                 }
             }
         }
-        List<Comparator<Product>> comparisons = List.of(new OriginalPriceComparator(),
-                new UpdatedPriceComparator(), Comparator.naturalOrder());
+        List<Comparator<Product>> comparisons = List.of(
+                new OriginalPriceComparator(),
+                new UpdatedPriceComparator(),
+                Comparator.<Product>naturalOrder()
+            );
         for (String file : new String[] {"res/products1.txt", "res/products2.txt", "res/products3.txt"}) {
             Product[] original = ProductFileReader.read(file);
             require(original.length == (file.contains("products1") ? 10 : file.contains("products2") ? 1000 : 1000000), "Dataset count");
-            for (char algorithm : (original.length > 1000 ? "z" : "bisz").toCharArray()) {
+            for (char algorithm : (original.length > 1000 ? "z" : "biszmq").toCharArray()) {
                 for (Comparator<Product> cmp : comparisons) {
                     Product[] actual = original.clone();
                     sort(algorithm, actual, cmp);
@@ -59,6 +62,8 @@ public class IntegrationChecks {
             case 'b' -> BubbleSort.sort(items, cmp);
             case 'i' -> InsertionSort.sort(items, cmp);
             case 's' -> SelectionSort.sort(items, cmp);
+            case 'm' -> MergeSort.sort(items, cmp);
+            case 'q' -> QuickSort.sort(items, cmp);
             case 'z' -> HeapSort.sort(items, cmp);
             default -> throw new AssertionError("Unexpected algorithm");
         }

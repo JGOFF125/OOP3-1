@@ -12,7 +12,6 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="appDomain.AppDriver"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="OOP3-1"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-fres/products1.txt -td -sq"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="OOP3-1"/>
     <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:OOP3-1}"/>
 </launchConfiguration>
