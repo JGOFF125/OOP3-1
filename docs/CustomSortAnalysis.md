@@ -108,18 +108,18 @@ Both counts are O(n log n).
 
 **Measured comparisons**
 
-I counted comparator calls while sorting random `Integer` arrays with `HeapSort.java`:
+I counted comparator calls while sorting random `Produict[]` arrays with `HeapSort.java`:
 
 | n | Measured comparisons | Bound `2n + 2n·log2(n)` | Measured / (`n·log2 n`) |
 | --- | --- | --- | --- |
-| 10 | 40 | 86 | 1.20 |
-| 100 | 1,036 | 1,529 | 1.56 |
-| 1,000 | 16,855 | 21,932 | 1.69 |
-| 10,000 | 235,277 | 285,754 | 1.77 |
-| 100,000 | 3,019,556 | 3,521,928 | 1.82 |
-| 1,000,000 | 36,795,718 | 41,863,137 | 1.85 |
+| 10 | 36 | 86 | 1.08 |
+| 100 | 1,027 | 1,529 | 1.55 |
+| 1,000 | 16,857 | 21,932 | 1.69 |
+| 10,000 | 235,440 | 285,754 | 1.77 |
+| 100,000 | 3,019,382 | 3,521,928 | 1.82 |
+| 1,000,000 | 36,793.254 | 41,863,137 | 1.85 |
 
-The measured counts stay under the bound and grow like n log n. These are test results, not proof.
+The measured counts stay under the bound and grow like n log n.
 
 ## Time complexity
 
