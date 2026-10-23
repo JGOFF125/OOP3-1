@@ -2,7 +2,9 @@
 
 This is our setup for Assignment 1: 
 
-The project structure is ready
+This integration build combines Joaquin, Christian, and Sebastian's ZIPs. Bubble, Insertion, Selection, and Heap work with the real reader, parser, comparisons, timer, and output. Merge and Quick are still unfinished, so this is not ready for final submission.
+
+Read [docs/IntegrationReport.md](docs/IntegrationReport.md) for the source of each part, fixes, verified checks, and remaining work.
 
 ## Open it in Eclipse
 
@@ -10,18 +12,18 @@ The project structure is ready
 2. Clone this repo using GitHub Desktop, or download the ZIP and extract it.
 3. In Eclipse, use **File > Import > General > Existing Projects into Workspace**.
 4. Select the cloned or extracted folder containing `.project`. Import `OOP3-1`.
-5. Run `src/appDomain/AppDriver.java` as a **Java Application**. You should get the setup message.
+5. Run `src/appDomain/AppDriver.java` as a **Java Application**. Use `-fres/products1.txt -td -sz` in the Arguments tab to run Heap Sort.
 
 There is also an `OOP3-1.launch` configuration with the smallest dataset and sample arguments. The working directory should be the project folder. Do not import just the `src` folder.
 
-## Who does what
+## Who does what?
 
 | Member | Work | Files |
-| --- | --- | --- |
-| 1 | Product model, seven product types, comparisons, and file reading | Everything in `src/products/`, plus `ProductFileReader.java` |
+| ----- | --- | --- |
+| 1 - Christian | Product model, seven product types, comparisons, and file reading | Everything in `src/products/`, plus `ProductFileReader.java` |
 | 2 - Joaquin | Bubble, Insertion, Selection, output, and connecting the application | `BubbleSort.java`, `InsertionSort.java`, `SelectionSort.java`, `ResultPrinter.java`, `AppDriver.java` |
-| 3 | Merge, Quick with Median-of-3, timer, JAR export, and final ZIPs | `MergeSort.java`, `QuickSort.java`, `BenchmarkRunner.java`; final packaging |
-| 4 | Heap Sort, command-line parsing, and custom algorithm report | `HeapSort.java`, `CommandLineOptions.java`, `docs/CustomSortAnalysis.md` |
+| 3 - Adeeb | Merge, Quick with Median-of-3, timer, JAR export, and final ZIPs | `MergeSort.java`, `QuickSort.java`, `BenchmarkRunner.java`; final packaging |
+| 4 - Sebastian | Heap Sort, command-line parsing, and custom algorithm report | `HeapSort.java`, `CommandLineOptions.java`, `docs/CustomSortAnalysis.md` |
 
 Other Java files listed above are in `src/utilities/ Members 1, 3, and 4 
 
@@ -101,7 +103,7 @@ java -jar Sort.jar -fres/products1.txt -td -sb
 java -jar Sort.jar -sQ -To -fres/products2.txt
 ```
 
-These are examples for the completed application. The setup driver does not parse arguments yet
+The b, i, s, and z options work in this build. The m and q options report that their algorithms are unfinished
 
 ## Final submission
 

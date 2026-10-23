@@ -13,6 +13,14 @@ public class OriginalPriceComparator implements Comparator<Product> {
     @Override
     public int compare(Product first, Product second) {
         // Member 1: compare the original prices
-        throw new UnsupportedOperationException("Original price comparison is not implemented yet.");
+    	if (first == null || second == null) {
+    		throw new NullPointerException("Prodcuts cannot be null.");
+    	}
+    	
+    	return Double.compare(
+    			first.getOriginalPrice(),
+    			second.getOriginalPrice()
+		);
+    	
     }
 }

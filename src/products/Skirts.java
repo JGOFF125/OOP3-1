@@ -7,6 +7,9 @@ public class Skirts extends Product {
      * @param originalPrice original price
      * @param updatedPrice updated price
      */
+	
+	private static final double ADJUSTMENT = 0.1;
+
     public Skirts(double originalPrice, double updatedPrice) {
         super(originalPrice, updatedPrice);
     }
@@ -15,6 +18,6 @@ public class Skirts extends Product {
     @Override
     public double calcRealDiff() {
         //Member 1: apply the 0.1 adjustment
-        throw new UnsupportedOperationException("Skirts difference is not implemented yet.");
+        return ADJUSTMENT * Math.abs(getOriginalPrice() - getUpdatedPrice());
     }
 }
