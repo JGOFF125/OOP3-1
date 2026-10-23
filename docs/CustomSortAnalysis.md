@@ -79,11 +79,13 @@ So a call that starts at a node of height `k` makes at most `2k` comparisons and
 
 **Building the heap**
 
-At most `ceil(n / 2^(k+1))` nodes have height `k`. Each needs at most `2k` comparisons:
+The number of nodes with height at least `k` is at most `floor(n / 2^k)`.
+Adding these counts for `k = 1, 2, ...` gives the total possible downward levels:
 
 ```
-comparisons <= sum over k of (n / 2^(k+1)) * 2k  =  n * sum of k / 2^k  =  2n        (because sum of k/2^k = 2)
-swaps       <= n
+total levels <= floor(n/2) + floor(n/4) + floor(n/8) + ... < n
+comparisons  <= 2 * total levels < 2n
+swaps       <= total levels < n
 ```
 
 Building the heap takes **O(n)** time, even though it does about `n/2` sift-downs.
@@ -108,16 +110,23 @@ Both counts are O(n log n).
 
 **Measured comparisons**
 
-I counted comparator calls while sorting random `Integer` arrays with `HeapSort.java`:
+These counts were measured with `Product[]` containing Jeans objects and the actual
+`OriginalPriceComparator`. For each size, the test starts a new `Random(304)` and uses
+`nextInt(1000000)` for the original price and zero for the updated price. A test-only
+wrapper counts comparator calls; it does not change the comparison result. Output
+validation happens after sorting and does not add to the measured count.
 
-| n | Measured comparisons | Bound `2n + 2n·log2(n)` | Measured / (`n·log2 n`) |
+Run `HeapMeasurementChecks` to reproduce the table. These are operation counts,
+not elapsed sorting times; the application timer remains outside HeapSort.
+
+| n | Measured comparisons | Bound `ceil(2n + 2n·log2(n))` | Measured / (`n·log2 n`) |
 | --- | --- | --- | --- |
-| 10 | 40 | 86 | 1.20 |
-| 100 | 1,036 | 1,529 | 1.56 |
-| 1,000 | 16,855 | 21,932 | 1.69 |
-| 10,000 | 235,277 | 285,754 | 1.77 |
-| 100,000 | 3,019,556 | 3,521,928 | 1.82 |
-| 1,000,000 | 36,795,718 | 41,863,137 | 1.85 |
+| 10 | 38 | 87 | 1.14 |
+| 100 | 1,030 | 1,529 | 1.55 |
+| 1,000 | 16,834 | 21,932 | 1.69 |
+| 10,000 | 235,214 | 285,755 | 1.77 |
+| 100,000 | 3,019,344 | 3,521,929 | 1.82 |
+| 1,000,000 | 36,793,676 | 41,863,138 | 1.85 |
 
 The measured counts stay under the bound and grow like n log n. These are test results, not proof.
 
@@ -129,8 +138,8 @@ The measured counts stay under the bound and grow like n log n. These are test r
 | Average | O(n log n) | Random test data used about `1.85 · n · log2 n` comparisons (see table). |
 | Best | O(n) | When all values are equal, sift-down stops at its first check: about `n` comparisons to build the heap and `2n` to extract. With distinct values, the best case is still O(n log n). |
 
-Input order does not make heap sort slower. Sorted and reverse-sorted arrays take the same
-asymptotic time. Quick sort, on the other hand, can take O(n²) on some inputs.
+The O(n log n) upper bound holds for any input order. The exact counts can still change
+when the input order changes. Quick sort, on the other hand, can take O(n²) on some inputs.
 
 ## Space complexity
 
@@ -138,9 +147,9 @@ Heap sort uses O(1) extra space. It rearranges the array in place with swaps and
 
 ## Why this algorithm is different
 
-- **Bubble, Insertion, and Selection Sort** all scan the array and take O(n²). Selection sort also picks the smallest remaining value each time, but it scans the whole unsorted part to find it. Heap sort keeps the values in a heap instead: it gets the smallest in O(1) and fixes the heap in O(log n).
+- **Bubble, Insertion, and Selection Sort** all have O(n²) worst-case time. Our descending Selection Sort picks the largest remaining value each time, but it scans the whole unsorted part to find it. Heap sort keeps the values in a heap instead: it gets the smallest in O(1) and fixes the heap in O(log n).
 - **Merge Sort** splits the data and merges it back using a temporary array, which needs O(n) extra space. Heap sort works in place and does not use recursion.
-- **Quick Sort** splits around a pivot but can take O(n²) in the worst case. Heap sort always takes O(n log n).
+- **Quick Sort** splits around a pivot but can take O(n²) in the worst case. Heap sort has an O(n log n) worst-case bound.
 - Heap sort is also the only one here that stores a tree inside the array itself.
 
 ## Research references

@@ -3,11 +3,12 @@ package utilities;
 import java.util.Locale;
 import products.Product;
 
-/** Displays the required sample of a sorted product array */
+/** I print the sorted products at the required positions */
 public class ResultPrinter {
+
     /**
-     * Prints all rows up to 10, otherwise first, last, and interval rows
-     * Positions are one-based: every 100th row up to 1,000, then every 1,000th
+     * I print every product up to 10, otherwise I print the sample rows
+     * I count rows from 1 and use intervals of 100 up to 1000, then 1000
      * @param items sorted product array
      */
     public static void print(Product[] items) {
@@ -32,7 +33,7 @@ public class ResultPrinter {
     }
 
     /**
-     * Displays one product with its position and all three comparison values
+     * I print the row number, product type, prices, and difference
      * @param items sorted product array
      * @param index zero-based index of the row
      */

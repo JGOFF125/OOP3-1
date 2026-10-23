@@ -1,9 +1,10 @@
 package utilities;
 
-/** Measures only the supplied sorting operation */
+/** I measure the sorting call without timing file input or output */
 public class BenchmarkRunner {
+
     /**
-     * Measures only the supplied sorting task using System.nanoTime().
+     * I measure the sorting call in nanoseconds
      * @param sortingTask sorting call to measure
      * @return elapsed nanoseconds; the driver displays a measurement unit
      */

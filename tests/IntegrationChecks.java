@@ -4,34 +4,23 @@ import java.util.*;
 import products.*;
 import utilities.*;
 
-/** Checks the integrated components without completing Merge or Quick Sort */
+/** I check all six sorts with the actual application components */
 public class IntegrationChecks {
     private static int assertions;
 
-    /** Runs parser, reader, product, sort, and timer checks */
+    /** I check arguments, reading, products, sorting, and timing */
     public static void main(String[] args) throws Exception {
         checkParser();
         checkReader();
         checkTimer();
-        Random random = new Random(304);
-        for (int n : new int[] {0, 1, 2, 3, 10, 100, 1000}) {
-            Integer[] input = new Integer[n];
-            for (int i = 0; i < n; i++) input[i] = random.nextInt(20) - 10;
-            for (char algorithm : "bisz".toCharArray()) {
-                for (Comparator<Integer> cmp : List.of(Comparator.<Integer>naturalOrder(), Comparator.<Integer>reverseOrder())) {
-                    Integer[] expected = input.clone(), actual = input.clone();
-                    Arrays.sort(expected, cmp.reversed());
-                    sort(algorithm, actual, cmp);
-                    require(Arrays.equals(actual, expected), "Integer sorting " + algorithm);
-                }
-            }
-        }
+        checkComparisons();
+        checkSortEdges();
         List<Comparator<Product>> comparisons = List.of(new OriginalPriceComparator(),
                 new UpdatedPriceComparator(), Comparator.naturalOrder());
         for (String file : new String[] {"res/products1.txt", "res/products2.txt", "res/products3.txt"}) {
             Product[] original = ProductFileReader.read(file);
             require(original.length == (file.contains("products1") ? 10 : file.contains("products2") ? 1000 : 1000000), "Dataset count");
-            for (char algorithm : (original.length > 1000 ? "z" : "bisz").toCharArray()) {
+            for (char algorithm : (original.length > 1000 ? "mqz" : "bismqz").toCharArray()) {
                 for (Comparator<Product> cmp : comparisons) {
                     Product[] actual = original.clone();
                     sort(algorithm, actual, cmp);
@@ -48,23 +37,88 @@ public class IntegrationChecks {
                     require(counts.isEmpty(), "No lost products");
                 }
             }
-            System.out.println("PASS: " + file + " (all comparisons; " + (original.length > 1000 ? "Heap" : "Bubble/Insertion/Selection/Heap") + ")");
+            System.out.println("PASS: " + file + " (all comparisons; " + (original.length > 1000 ? "Merge/Quick/Heap" : "all six algorithms") + ")");
         }
         System.out.println("PASS: " + assertions + " integration assertions");
     }
 
-    /** Dispatches only the algorithms supplied in the three archives */
-    private static <T> void sort(char algorithm, T[] items, Comparator<? super T> cmp) {
+    /** I check the comparison signs before testing any sort */
+    private static void checkComparisons() {
+        Product smaller = new Jeans(10, 8);
+        Product larger = new Shoes(30, 20);
+        for (Comparator<Product> cmp : List.of(new OriginalPriceComparator(),
+                new UpdatedPriceComparator(), Comparator.<Product>naturalOrder())) {
+            require(cmp.compare(smaller, larger) < 0, "Normal negative comparison");
+            require(cmp.compare(larger, smaller) > 0, "Normal positive comparison");
+            require(cmp.compare(smaller, smaller) == 0, "Equal comparison");
+        }
+        require(smaller.compareTo(larger) < 0, "Comparable difference contract");
+        require(new Jeans(10, 4).calcRealDiff() == 3, "Jeans difference");
+        require(new TShirts(10, 5).calcRealDiff() == 1, "TShirts difference");
+        require(new Skirts(10, 0).calcRealDiff() == 1, "Skirts difference");
+        require(new Dresses(10, 5).calcRealDiff() == 3, "Dresses difference");
+        require(new Shorts(10, 0).calcRealDiff() == 3, "Shorts difference");
+        require(new Jackets(10, 0).calcRealDiff() == 7, "Jackets difference");
+        require(new Shoes(10, 0).calcRealDiff() == 4, "Shoes difference");
+    }
+
+    /** I check duplicates, repeated objects, and arrays in both directions */
+    private static void checkSortEdges() {
+        Random random = new Random(304);
+        Product repeated = new Jeans(10, 5);
+        Product[][] edges = {
+            {}, {repeated}, {repeated, repeated, repeated},
+            {new Jeans(5, 1), new Shoes(5, 1), new Jackets(5, 8)},
+            {new Jeans(1, 0), new Jeans(2, 0), new Jeans(3, 0)},
+            {new Jeans(3, 0), new Jeans(2, 0), new Jeans(1, 0)}
+        };
+        for (char algorithm : "bismqz".toCharArray()) {
+            for (Comparator<Product> cmp : List.of(new OriginalPriceComparator(),
+                    new UpdatedPriceComparator(), Comparator.<Product>naturalOrder())) {
+                for (Product[] edge : edges) checkProductSort(algorithm, edge, cmp);
+                for (int size = 0; size <= 150; size++) {
+                    Product[] input = new Product[size];
+                    for (int i = 0; i < size; i++) {
+                        input[i] = i % 2 == 0 ? new Jeans(random.nextInt(20), random.nextInt(20))
+                                : new Shoes(random.nextInt(20), random.nextInt(20));
+                    }
+                    checkProductSort(algorithm, input, cmp);
+                }
+            }
+        }
+    }
+
+    /** I check the values and make sure no products were lost */
+    private static void checkProductSort(char algorithm, Product[] input, Comparator<Product> cmp) {
+        Product[] expected = input.clone();
+        Arrays.sort(expected, cmp.reversed()); // I use this only to get the expected order
+        Product[] actual = input.clone();
+        sort(algorithm, actual, cmp);
+        IdentityHashMap<Product, Integer> counts = new IdentityHashMap<>();
+        for (Product item : input) counts.put(item, counts.getOrDefault(item, 0) + 1);
+        for (int i = 0; i < actual.length; i++) {
+            require(cmp.compare(actual[i], expected[i]) == 0, "Expected sorted value " + algorithm);
+            int count = counts.getOrDefault(actual[i], 0);
+            require(count > 0, "Preserved product occurrence " + algorithm);
+            if (count == 1) counts.remove(actual[i]); else counts.put(actual[i], count - 1);
+        }
+        require(counts.isEmpty(), "No missing products " + algorithm);
+    }
+
+    /** I run the sort selected by its option letter */
+    private static void sort(char algorithm, Product[] items, Comparator<Product> cmp) {
         switch (algorithm) {
             case 'b' -> BubbleSort.sort(items, cmp);
             case 'i' -> InsertionSort.sort(items, cmp);
             case 's' -> SelectionSort.sort(items, cmp);
+            case 'm' -> MergeSort.sort(items, cmp);
+            case 'q' -> QuickSort.sort(items, cmp);
             case 'z' -> HeapSort.sort(items, cmp);
             default -> throw new AssertionError("Unexpected algorithm");
         }
     }
 
-    /** Checks all argument orders, mixed case, quoting, and invalid options */
+    /** I check argument order, mixed case, quotes, and invalid options */
     private static void checkParser() {
         int[][] orders = {{0,1,2},{0,2,1},{1,0,2},{1,2,0},{2,0,1},{2,1,0}};
         for (char type : "oud".toCharArray()) {
@@ -81,7 +135,7 @@ public class IntegrationChecks {
         for (String[] input : invalid) expect(IllegalArgumentException.class, () -> CommandLineOptions.parse(input));
     }
 
-    /** Checks row errors, count mismatches, price validation, and missing files */
+    /** I check bad rows, counts, prices, and missing files */
     private static void checkReader() throws IOException {
         Path file = Files.createTempFile("oop reader ", ".txt");
         try {
@@ -100,7 +154,7 @@ public class IntegrationChecks {
         }
     }
 
-    /** Ensures the timer runs once and preserves failures from the task */
+    /** I check that the timer runs the task once and keeps its exceptions */
     private static void checkTimer() {
         int[] calls = {0};
         long elapsed = BenchmarkRunner.measureNanos(() -> calls[0]++);
@@ -108,7 +162,7 @@ public class IntegrationChecks {
         expect(IllegalStateException.class, () -> BenchmarkRunner.measureNanos(() -> { throw new IllegalStateException("test"); }));
     }
 
-    /** Runs a checked operation expecting a specific exception */
+    /** I check that an operation throws the expected exception */
     private static void expect(Class<? extends Throwable> type, CheckedAction action) {
         try { action.run(); } catch (Throwable error) {
             require(type.isInstance(error), "Expected " + type + ", got " + error);
@@ -117,10 +171,10 @@ public class IntegrationChecks {
         throw new AssertionError("Missing exception " + type);
     }
 
-    /** Allows an operation to throw a checked exception */
+    /** I use this for checks that can throw an exception */
     @FunctionalInterface private interface CheckedAction { void run() throws Exception; }
 
-    /** Records a successful assertion or stops at the first failure */
+    /** I count each passed check and stop on a failure */
     private static void require(boolean condition, String message) {
         if (!condition) throw new AssertionError(message);
         assertions++;

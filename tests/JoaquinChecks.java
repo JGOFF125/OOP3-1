@@ -6,72 +6,65 @@ import java.util.Comparator;
 import java.util.Random;
 import appDomain.AppDriver;
 import products.Product;
+import products.Jeans;
+import products.OriginalPriceComparator;
+import products.UpdatedPriceComparator;
 import utilities.BubbleSort;
 import utilities.InsertionSort;
 import utilities.ResultPrinter;
 import utilities.SelectionSort;
 
-/** Standalone checks for Joaquin's work, without replacing teammates' code */
+/** I check the sorts, printed rows, and application routing */
 public class JoaquinChecks {
-    /** Product substitute used only in these checks */
+    /** I use this product for output boundary checks */
     private static class TestProduct extends Product {
-        /** Creates a test product with two prices */
+        /** I set both prices for this test product */
         TestProduct(double original, double updated) { super(original, updated); }
-        /** Returns an adjusted difference for printer and driver checks */
+        /** I calculate the difference for the output checks */
         @Override public double calcRealDiff() {
             return 0.5 * Math.abs(getOriginalPrice() - getUpdatedPrice());
         }
-        /** Supplies natural comparison while the real base class is unfinished */
-        @Override public int compareTo(Product other) {
-            return Double.compare(calcRealDiff(), other.calcRealDiff());
-        }
+
     }
 
-    /** Runs the checks; any failure throws an AssertionError */
+    /** I stop at the first failed check */
     public static void main(String[] args) throws Exception {
         Random random = new Random(304);
         for (int algorithm = 0; algorithm < 3; algorithm++) {
-            for (Comparator<Integer> comparison : Arrays.asList(
-                    Comparator.<Integer>naturalOrder(), Comparator.<Integer>reverseOrder())) {
-                checkSort(algorithm, new Integer[0], comparison);
-                checkSort(algorithm, new Integer[] {7}, comparison);
-                checkSort(algorithm, new Integer[] {3, 3, 3}, comparison);
-                checkSort(algorithm, new Integer[] {9, 5, 0, -1}, comparison);
-                checkSort(algorithm, new Integer[] {-1, 0, 5, 9}, comparison);
+            for (Comparator<Product> comparison : Arrays.asList(new OriginalPriceComparator(),
+                    new UpdatedPriceComparator(), Comparator.<Product>naturalOrder())) {
+                checkSort(algorithm, new Product[0], comparison);
+                checkSort(algorithm, new Product[] {new Jeans(7, 2)}, comparison);
                 for (int attempt = 0; attempt < 100; attempt++) {
-                    Integer[] items = new Integer[random.nextInt(150)];
-                    for (int i = 0; i < items.length; i++) items[i] = random.nextInt(41) - 20;
+                    Product[] items = new Product[random.nextInt(150)];
+                    for (int i = 0; i < items.length; i++) {
+                        items[i] = new Jeans(random.nextInt(41), random.nextInt(41));
+                    }
                     checkSort(algorithm, items, comparison);
                 }
             }
-        }
-        Comparator<TestProduct> prices = Comparator.comparingDouble(Product::getOriginalPrice);
-        for (int algorithm = 0; algorithm < 3; algorithm++) {
-            TestProduct[] items = {new TestProduct(5, 0), new TestProduct(10, 0), new TestProduct(5, 2)};
-            if (algorithm == 0) BubbleSort.sort(items, prices);
-            if (algorithm == 1) InsertionSort.sort(items, prices);
-            if (algorithm == 2) SelectionSort.sort(items, prices);
-            require(items[0].getOriginalPrice() == 10, "Generic product sorting");
         }
         for (int size : new int[] {0, 1, 10, 11, 99, 100, 101, 999, 1000, 1001, 2000, 2001, 1000000}) {
             checkOutput(size);
         }
         checkDriver();
-        System.out.println("PASS: 630 integer sort cases, generic products, 13 output boundaries, and driver routing");
+        System.out.println("PASS: Product sorting, 13 output boundaries, and all six driver routes");
     }
 
-    /** Compares production sorting with an independent expected ordering */
-    private static void checkSort(int algorithm, Integer[] input, Comparator<Integer> comparison) {
-        Integer[] expected = input.clone();
-        Arrays.sort(expected, comparison.reversed()); // Test oracle only
-        Integer[] actual = input.clone();
+    /** I compare each sorted value with the expected descending order */
+    private static void checkSort(int algorithm, Product[] input, Comparator<Product> comparison) {
+        Product[] expected = input.clone();
+        Arrays.sort(expected, comparison.reversed()); // I use this only to get the expected order
+        Product[] actual = input.clone();
         if (algorithm == 0) BubbleSort.sort(actual, comparison);
         if (algorithm == 1) InsertionSort.sort(actual, comparison);
         if (algorithm == 2) SelectionSort.sort(actual, comparison);
-        require(Arrays.equals(expected, actual), "Sort " + algorithm + " failed");
+        for (int i = 0; i < actual.length; i++) {
+            require(comparison.compare(expected[i], actual[i]) == 0, "Sort " + algorithm + " failed");
+        }
     }
 
-    /** Verifies sampled one-based positions and all required product fields */
+    /** I check the printed row positions and product values */
     private static void checkOutput(int size) {
         Product[] products = new Product[size];
         Arrays.fill(products, new TestProduct(20, 10));
@@ -100,7 +93,7 @@ public class JoaquinChecks {
         }
     }
 
-    /** Checks dispatch without implementing unfinished production dependencies */
+    /** I check that each option runs the right sort */
     @SuppressWarnings("unchecked")
     private static void checkDriver() throws Exception {
         Method chooseComparison = AppDriver.class.getDeclaredMethod("chooseComparison", char.class);
@@ -113,16 +106,8 @@ public class JoaquinChecks {
         for (char algorithm : new char[] {'b', 'i', 's', 'm', 'q', 'z'}) {
             Product[] items = {new TestProduct(4, 0), new TestProduct(10, 0)};
             Runnable task = (Runnable) chooseSort.invoke(null, algorithm, items, comparison);
-            if (algorithm == 'b' || algorithm == 'i' || algorithm == 's' || algorithm == 'z') {
-                task.run();
-                require(items[0].calcRealDiff() == 5, "Difference route");
-            } else {
-                try { task.run(); throw new AssertionError("Expected unfinished component"); }
-                catch (UnsupportedOperationException expected) {
-                    String name = algorithm == 'm' ? "Merge" : algorithm == 'q' ? "Quick" : "Heap";
-                    require(expected.getMessage().contains(name), "Unfinished sort route");
-                }
-            }
+            task.run();
+            require(items[0].calcRealDiff() == 5, "Difference route");
         }
         PrintStream original = System.err;
         ByteArrayOutputStream captured = new ByteArrayOutputStream();
@@ -133,7 +118,7 @@ public class JoaquinChecks {
         require(captured.toString().contains("Invalid input:"), "Invalid argument message");
     }
 
-    /** Stops the checks with a useful failure message */
+    /** I stop with a message if a check fails */
     private static void require(boolean condition, String message) {
         if (!condition) throw new AssertionError(message);
     }

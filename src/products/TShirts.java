@@ -1,23 +1,26 @@
 package products;
 
-/** Member 1 implements the adjustment  */
+/** I keep the prices and adjustment for TShirts here */
 public class TShirts extends Product {
+    /** I use this adjustment for the price difference */
+    private static final double ADJUSTMENT = 0.2;
+
     /**
-     * Creates this product.
+     * I store both prices for this product
      * @param originalPrice original price
      * @param updatedPrice updated price
      */
-	
-	private static final double ADJUSTMENT = 0.2;
-
     public TShirts(double originalPrice, double updatedPrice) {
         super(originalPrice, updatedPrice);
     }
 
-    /** @return adjusted absolute price difference */
+    /**
+     * I multiply the absolute price difference by this product adjustment
+     * @return adjusted absolute price difference
+     */
     @Override
     public double calcRealDiff() {
-        // Member 1: apply the 0.2 adjustment
+        // I apply the 0.2 adjustment
         return ADJUSTMENT * Math.abs(getOriginalPrice() - getUpdatedPrice());
     }
 }

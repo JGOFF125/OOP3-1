@@ -17,10 +17,11 @@ import utilities.QuickSort;
 import utilities.ResultPrinter;
 import utilities.SelectionSort;
 
-/** Connects file input, comparison, sorting, timing, and console output */
+/** I connect the file, selected sort, timer, and results here */
 public class AppDriver {
+
     /**
-     * Runs the selected algorithm and shows useful messages for expected errors
+     * I run the selected sort and explain input errors
      * @param args attached file, comparison, and sorting options in any order
      */
     public static void main(String[] args) {
@@ -30,7 +31,7 @@ public class AppDriver {
             Product[] items = ProductFileReader.read(options.getFilePath());
             Runnable sortingTask = chooseSort(options.getSortType(), items, comparison);
 
-            // Only the sorting call belongs inside the timed section
+            // I time the sort only
             long elapsedNanos = BenchmarkRunner.measureNanos(sortingTask);
             System.out.printf(Locale.ROOT,
                     "Sorted %d products using %s (%s), largest to smallest.%n",
@@ -50,7 +51,7 @@ public class AppDriver {
     }
 
     /**
-     * Selects a normal comparison; each sort handles descending order itself
+     * I choose what to compare and let the sort put larger values first
      * @param type o for original, u for updated, or d for adjusted difference
      * @return selected product comparison
      * @throws IllegalArgumentException when the type is unknown
@@ -65,7 +66,7 @@ public class AppDriver {
     }
 
     /**
-     * Prepares the selected sorting call before the timer starts
+     * I select the sort before starting the timer
      * @param type b, s, i, m, q, or z
      * @param items product array to sort
      * @param comparison normal product comparison
@@ -85,7 +86,7 @@ public class AppDriver {
     }
 
     /**
-     * Gives the selected algorithm a readable label for the results
+     * I get the sort name for the output
      * @param type sorting option
      * @return algorithm name
      */
@@ -102,7 +103,7 @@ public class AppDriver {
     }
 
     /**
-     * Gives the selected comparison a readable label for the results
+     * I get the name of the value being compared
      * @param type comparison option
      * @return compared property name
      */

@@ -1,12 +1,14 @@
 package products;
 
-/** Member 1 completes comparison and validation */
+/** I keep both prices here and compare products by their calculated difference */
 public abstract class Product implements Comparable<Product> {
+    /** I store the original price */
     private final double originalPrice;
+    /** I store the updated price */
     private final double updatedPrice;
 
     /**
-     * Creates a product with its two prices.
+     * I check both prices before storing them
      * @param originalPrice original price
      * @param updatedPrice updated price
      */
@@ -19,27 +21,36 @@ public abstract class Product implements Comparable<Product> {
         this.updatedPrice = updatedPrice;
     }
 
-    /** @return original price */
+    /**
+     * I return the original price
+     * @return original price
+     */
     public double getOriginalPrice() { return originalPrice; }
 
-    /** @return updated price */
+    /**
+     * I return the updated price
+     * @return updated price
+     */
     public double getUpdatedPrice() { return updatedPrice; }
 
-    /** @return adjusted absolute difference between the prices */
+    /**
+     * I let each product type calculate its adjusted difference
+     * @return adjusted absolute difference between the prices
+     */
     public abstract double calcRealDiff();
 
     /**
-     * Compares the adjusted differences using the normal Comparable contract.
+     * I compare the calculated differences with the normal Comparable result
      * @param other product to compare
      * @return negative, zero, or positive comparison result
      */
     @Override
     public int compareTo(Product other) {
-        //  Member 1: compare calcRealDiff() values
+        // I compare the calculated differences
     	if (other == null) {
     		throw new NullPointerException("Product cannot be null.");
     	}
-    	
+
     	return Double.compare(this.calcRealDiff(), other.calcRealDiff());
     }
 }

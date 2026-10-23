@@ -1,47 +1,67 @@
-# Integration status — no Member 3 yet
+# Integration status
 
-This project combines the uploaded Joaquin, Christian, and Sebastian ZIPs. No one is currently assigned to Member 3. It is not a finished assignment submission.
+All six algorithms are integrated using Product[] and Comparator<Product>. We use the abstract Product class directly in every sorting method and helper. Comparable<Product> and both normal price comparators are retained.
 
-## Joaquin — completed
+## Sources and changes
 
-Bubble Sort, Insertion Sort, Selection Sort, ResultPrinter, and AppDriver integration are implemented. The completed sorts run directly in descending order through the shared comparator signature. Printing uses the required sample intervals. The driver connects the parser, reader, comparison, selected sort, timer, and results, and handles expected errors.
+- Source of truth: main commit 2fbdad8cda0f91000402e3975ccbeb6471d4a9c1
+- Joaquin's Bubble, Insertion, and Selection: signatures and temporary variables changed to Product only; sorting logic retained
+- Sebastian's Heap: signature, siftDown, swap, and temporary variable changed to Product only; min-heap logic retained
+- Adeeb's Merge and Quick: logic copied from OOP3-1-Adeeb.zip; Javadoc completed during submission review
+- Merge combines sections iteratively and selects the larger product first
+- Quick selects the median of the first, middle, and last products, partitions directly descending, and uses an explicit bounds stack
+- Product calculations, Comparable, price comparators, reader behavior, AppDriver behavior, parser, timing, output, datasets, and Eclipse metadata are unchanged
+- Class, method, constructor, and field Javadoc corrected and completed
+- Heap report updated with Product-based measurements reproducible through tests/HeapMeasurementChecks.java and corrected Selection Sort description
+- Integer-based sorting tests and the generic integration dispatcher are replaced with Product-based checks
+- The test-only Product subclass no longer overrides compareTo; driver checks exercise the real base-class implementation
 
-No further algorithm implementation is assigned to Joaquin. Joaquin still coordinates the final integration once Member 3's files arrive, participates in the group self-evaluation, and submits an individual peer evaluation.
+No production algorithm uses built-in sorting, reverses an ascending result, prints output, or measures time. AppDriver reads input and selects the comparison/task before BenchmarkRunner starts, and prints results after it stops. Allocations inside the sorting algorithms are part of sorting time.
 
-## Member 3 — still unassigned
+## Verification — October 23, 2026
 
-1. Implement MergeSort.sort() with the existing generic signature, directly in descending order. No built-in sorting and no ascending-sort-then-reverse shortcut.
-2. Implement QuickSort.sort() using Median-of-3 pivot selection and the existing generic signature. Handle duplicates, empty/single-item arrays, and already sorted inputs.
-3. Review and test BenchmarkRunner. A small timer implementation was added solely to make the four completed sorts runnable now. It executes the sorting task once between System.nanoTime() readings; input and output are outside timing. Member 3 does not need to rewrite it if it meets the requirements.
-4. Test Merge and Quick independently, then integrate them with the real products, all three comparison types, and supplied datasets. Update tests that currently expect those two algorithms to be unfinished.
-5. Coordinate final checks across all six algorithms. Test argument errors, output boundaries, sorting order, product preservation, and sorting-only timing. The three quadratic sorts have not been run on the million-product dataset.
-6. Export the final runnable Sort.jar only after all six algorithms work, and verify it from a terminal.
-7. Zip the complete Eclipse project including .project, .classpath, .settings, src, and res. Import it into a fresh Eclipse workspace with JDK 21 and run it.
-8. Prepare the outer A1<GroupName>.zip containing the final Sort.jar, complete project ZIP, Heap analysis, and completed group marking criteria. Check the deadline and arrange one group submission. Each member handles their own peer assessment.
+- OpenJDK 21 compilation with --release 21 -Xlint:all: passed without warnings
+- Production Javadoc for declared members with -private -Xdoclint:all,-missing -Werror: passed without errors or warnings
+- HeapMeasurementChecks: passed sizes 10 through 1,000,000 and reproduced the report table
+- JoaquinChecks: passed Product sorting, 13 output boundaries, and all six driver routes
+- IntegrationChecks: passed 18,447,516 assertions
+- Christian's preserved JUnit suite: all 17 tests passed
+- Runnable JAR: passed 45 algorithm/comparison/dataset combinations, an external working directory, a file path containing spaces, and invalid/missing input checks
+- All six sorts passed original price, updated price, and calculated difference on products1 (10) and products2 (1,000)
+- Merge, Quick, and Heap passed all three comparisons on products3 (1,000,000)
+- Small cases cover empty, singleton, two-element, duplicate values, repeated references, ascending, descending, and random mixed-subclass arrays
+- Tests compare expected values and preserve every product occurrence; unstable sorts are allowed to reorder equal values
+- Normal negative, zero, and positive comparator results and Product.compareTo are checked independently
+- Parser tests cover all argument permutations and mixed-case options for every algorithm/comparison
+- No custom type parameter, T array, or Comparator<? super T> remains in production sorting code
 
-## Sources and minimal changes
+The three quadratic sorts were not run on all one million products. Their smaller-file and edge checks passed. The million-product source data is unchanged.
 
-- Joaquin: the base Eclipse project, three basic sorts, result printer, driver, and independent tests.
-- Christian: products, comparators, reader, original JUnit tests, and the million-product dataset.
-- Sebastian: Heap Sort, parser, and Heap analysis, copied byte for byte from his ZIP.
-- Integration addition: the small BenchmarkRunner implementation so the completed sorts can run together.
-- Necessary validation fix: Product rejects negative and non-finite prices. Christian's original test suite expects these errors, but the uploaded constructor did not implement them. No comments were added or changed in his source files.
-- Christian's remaining product files and reader are restored byte for byte from his ZIP. Previous comment/Javadoc, typo, import, and reader cleanups were removed.
-- JoaquinChecks was updated because Heap and argument parsing are now finished. IntegrationChecks exercises the real combined components.
-- Eclipse metadata is retained from Joaquin's project. Christian's JUnit test is preserved outside the production source path; add JUnit 5 and the test source folder in Eclipse to run it.
+## Remaining submission work
 
-## Verification
+We review the final package together before submission. The Java 21 Eclipse metadata is retained. Actual GUI import into a fresh Eclipse workspace must still be checked; this environment verifies Java compilation and terminal execution only. A review package is prepared with the runnable JAR, nested complete-project ZIP, report, and blank instructor marking form. Complete the group marking criteria together, review the Heap analysis in the author's own words, rename the outer ZIP with the actual group name, and arrange one group submission. See SubmissionChecklist.md. Each member submits their individual peer evaluation.
 
-Java 21 compilation passes. JoaquinChecks passes 630 integer sorting cases, generic products, 13 output-size boundaries, and driver routing. All 17 of Christian's JUnit tests pass. IntegrationChecks passes 6,024,441 assertions covering parser case/order, reader errors, invalid prices, timer execution, order, and preservation of product objects.
+## Run the checks
 
-Bubble, Insertion, Selection, and Heap pass on the 10- and 1,000-product files across all three comparisons. Heap passes on the million-product file across all three comparisons. The development JAR passes all 24 combinations for the two smaller files, plus error messages and paths with spaces outside the project directory.
+From the project root with JDK 21:
 
-The million-product file is unchanged from Christian's ZIP. No sorting data was fabricated. Actual Eclipse GUI import remains to be checked. Documentation and the Heap analysis need their owners' final review; group self-evaluation and individual peer assessments remain outstanding.
+```bash
+mkdir -p build/checks
+javac --release 21 -Xlint:all -d build/checks src/products/*.java src/utilities/*.java src/appDomain/*.java tests/*.java
+java -Xmx768m -cp build/checks JoaquinChecks
+java -Xmx768m -cp build/checks IntegrationChecks
+java -Xmx768m -cp build/checks HeapMeasurementChecks
+```
 
-## Run the current build
+Christian's original tests remain in test/products/ProductTest.java. Add JUnit 5 and that test source folder in Eclipse to run them. Neither standalone checks nor JUnit tests are in the default production source path.
 
-Extract into a new folder. In Eclipse import the enclosed OOP3-1 project, configure JavaSE-21, and run AppDriver with:
+## Build a runnable JAR
 
--fres/products1.txt -td -sz
+```bash
+mkdir -p build/app dist
+javac --release 21 -d build/app src/products/*.java src/utilities/*.java src/appDomain/*.java
+jar --create --file dist/Sort.jar --main-class appDomain.AppDriver -C build/app .
+java -jar dist/Sort.jar -fres/products1.txt -td -sq
+```
 
-Use b, i, s, or z for completed algorithms. The m and q options report that their implementations are unfinished. Sort.jar is a development build, not the final submission JAR. GitHub was not modified.
+Keep generated JARs and build directories out of source commits. To export from Eclipse, follow the README's Runnable JAR instructions.

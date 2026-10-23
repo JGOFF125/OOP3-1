@@ -1,19 +1,24 @@
 package utilities;
 
 /**
- * Stores the file, comparison type, and sort type from the command line,
- * and reads them from the program arguments.
+ * I keep the file path and the two selected options here
+ * I read them from the command line
  */
 public class CommandLineOptions {
+    /** I accept original, updated, or calculated difference */
     private static final String COMPARE_TYPES = "oud";
+    /** I accept these six sorting options */
     private static final String SORT_TYPES = "bsimqz";
 
+    /** I keep the path exactly as entered */
     private final String filePath;
+    /** I store the selected comparison */
     private final char compareType;
+    /** I store the selected sort */
     private final char sortType;
 
     /**
-     * Stores options. Parsed type characters must be lowercase.
+     * I store the path and lowercase option letters
      *
      * @param filePath input file path
      * @param compareType o, u, or d
@@ -25,18 +30,27 @@ public class CommandLineOptions {
         this.sortType = sortType;
     }
 
-    /** @return input file path */
+    /**
+     * I return the input path
+     * @return input file path
+     */
     public String getFilePath() { return filePath; }
 
-    /** @return comparison type */
+    /**
+     * I return the comparison option
+     * @return comparison type
+     */
     public char getCompareType() { return compareType; }
 
-    /** @return sorting type */
+    /**
+     * I return the sorting option
+     * @return sorting type
+     */
     public char getSortType() { return sortType; }
 
     /**
-     * Reads the -f, -t, and -s options in any order, ignoring option case.
-     * The file path keeps its original case, and the type letters are lowercased.
+     * I read the three options in any order and ignore their case
+     * I leave the path unchanged and lowercase only the option letters
      *
      * @param args command-line arguments
      * @return validated options
@@ -116,7 +130,7 @@ public class CommandLineOptions {
     }
 
     /**
-     * Gets the file path from the -f option, removing one pair of surrounding quotes.
+     * I get the file path and remove surrounding quotes if needed
      *
      * @param arg the whole argument, used in error messages
      * @param value text after the option letters
@@ -135,7 +149,7 @@ public class CommandLineOptions {
     }
 
     /**
-     * Checks that a -t or -s value is exactly one allowed letter.
+     * I check that the option has one allowed letter
      *
      * @param arg the whole argument, used in error messages
      * @param value text after the option letters
@@ -155,8 +169,8 @@ public class CommandLineOptions {
     }
 
     /**
-     * Checks whether a character can start an option. Hyphen, en dash and
-     * em dash are accepted, since the latter two often appear in pasted commands.
+     * I accept regular dashes and the longer dashes pasted from documents
+     *
      *
      * @param c character to check
      * @return true if the character can start an option
@@ -165,7 +179,10 @@ public class CommandLineOptions {
         return c == '-' || c == '\u2013' || c == '\u2014';
     }
 
-    /** @return command format shown in error messages */
+    /**
+     * I return an example of the command format
+     * @return command format shown in error messages
+     */
     private static String usage() {
         return "Usage: java -jar Sort.jar -f<file_name> -t<o|u|d> -s<b|s|i|m|q|z>";
     }

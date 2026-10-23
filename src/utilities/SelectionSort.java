@@ -1,16 +1,17 @@
 package utilities;
 
 import java.util.Comparator;
+import products.Product;
 
-/** Rearranges an array in descending order using selection sort */
+/** I select the largest remaining product for each position */
 public class SelectionSort {
+
     /**
-     * Sorts in place using the normal comparator contract, without timing or output
-     * @param <T> type of array elements
+     * I put larger values first without changing the comparator result
      * @param items array to rearrange
      * @param comparison comparison used to determine which element is larger
      */
-    public static <T> void sort(T[] items, Comparator<? super T> comparison) {
+    public static void sort(Product[] items, Comparator<Product> comparison) {
         for (int index = 0; index < items.length - 1; index++) {
             int largest = index;
             for (int candidate = index + 1; candidate < items.length; candidate++) {
@@ -19,7 +20,7 @@ public class SelectionSort {
                 }
             }
             if (largest != index) {
-                T temp = items[index];
+                Product temp = items[index];
                 items[index] = items[largest];
                 items[largest] = temp;
             }

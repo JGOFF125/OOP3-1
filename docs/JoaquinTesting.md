@@ -1,6 +1,6 @@
-# Joaquin's checks
+# Application checks
 
-Bubble, Insertion, Selection, ResultPrinter, and AppDriver are implemented. The integrated parser, products, reader, Heap Sort, and timer now work. Merge and Quick remain unfinished.
+Bubble, Insertion, Selection, ResultPrinter, and AppDriver are implemented. The integrated parser, products, reader, Heap Sort, and timer now work. Adeeb's Merge and Quick are now integrated using Product arrays.
 
 ## Run the independent checks
 
@@ -8,25 +8,19 @@ Use JDK 21. Open Git Bash in the cloned project folder and run:
 
 ```bash
 mkdir -p build/checks
-javac --release 21 -d build/checks src/products/*.java src/utilities/*.java src/appDomain/*.java tests/JoaquinChecks.java
+javac --release 21 -d build/checks src/products/*.java src/utilities/*.java src/appDomain/*.java tests/*.java
 java -cp build/checks JoaquinChecks
 ```
 
-The checks cover empty and single-element arrays, duplicates, ascending and descending inputs, random values, custom comparators, product objects, and output sizes around 10 and 1,000. They also check the driver's comparison and sorting routes with a test-only Product subclass.
+The checks cover empty and single-element arrays, duplicates, ascending and descending inputs, random values, the actual price comparators, natural Product ordering, product objects, and output sizes around 10 and 1,000. They also check the driver's comparison and sorting routes with a test-only Product subclass.
 
 `Arrays.sort()` appears only in the test oracle to calculate expected results. The assignment's production sorts do not call it.
 
-These checks now reflect the integrated build. The driver checks still expect Merge and Quick to be unfinished; update those checks when those algorithms are supplied. The test class is outside `src`, so it does not change the Eclipse source path or become part of the runnable application.
+These checks now reflect the integrated build. The driver checks execute all six algorithms and use Product.compareTo for calculated difference. The test class is outside `src`, so it does not change the Eclipse source path or become part of the runnable application.
 
-## Still needed after integration
+## Verified integration
 
-- Run the actual application with each of the six algorithms and each comparison
-- Verify the real file reader, product calculations, parser, and timer
-- Check mixed-case arguments, argument order, paths with spaces, and invalid inputs
-- Repeat all tests when Merge and Quick are integrated; the million-product file is now included
-- Confirm that only sorting is timed and that the JAR runs outside Eclipse
-
-In Eclipse, AppDriver now runs the application instead of printing the old setup message. An unfinished-component message is expected for Merge and Quick only.
+All six algorithms pass all three comparisons on products1 and products2. Merge, Quick, and Heap also pass on the million-product products3 file. IntegrationChecks covers small edge cases, normal comparison signs, object preservation, parser case/order, reader errors, and timer execution. See IntegrationReport.md for results and remaining submission checks. Actual Eclipse GUI import still needs a manual check.
 
 ## Combined checks
 

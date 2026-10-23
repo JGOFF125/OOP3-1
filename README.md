@@ -1,8 +1,8 @@
 # OOP3-1
 
-This is our setup for Assignment 1: 
+Assignment 1 uses Eclipse and Java 21.
 
-This integration build combines Joaquin, Christian, and Sebastian's ZIPs. Bubble, Insertion, Selection, and Heap work with the real reader, parser, comparisons, timer, and output. Merge and Quick are still unfinished, so this is not ready for final submission.
+We have integrated all four parts of the project. All six sorts use Product arrays and work with the real reader, parser, comparisons, timer, and output. Final Eclipse GUI import and submission packaging still need to be checked.
 
 Read [docs/IntegrationReport.md](docs/IntegrationReport.md) for the source of each part, fixes, verified checks, and remaining work.
 
@@ -25,7 +25,7 @@ There is also an `OOP3-1.launch` configuration with the smallest dataset and sam
 | 3 - Adeeb | Merge, Quick with Median-of-3, timer, JAR export, and final ZIPs | `MergeSort.java`, `QuickSort.java`, `BenchmarkRunner.java`; final packaging |
 | 4 - Sebastian | Heap Sort, command-line parsing, and custom algorithm report | `HeapSort.java`, `CommandLineOptions.java`, `docs/CustomSortAnalysis.md` |
 
-Other Java files listed above are in `src/utilities/ Members 1, 3, and 4 
+Other utility Java files listed above are in `src/utilities/`.
 
 This balances smaller classes, simpler sorts, harder sorts, writing, and integration. If someone gets stuck, ask in the group chat early so we can adjust the work.
 
@@ -46,10 +46,10 @@ This balances smaller classes, simpler sorts, harder sorts, writing, and integra
 Every sort uses this signature:
 
 ```java
-public static <T> void sort(T[] items, Comparator<? super T> comparison)
+public static void sort(Product[] items, Comparator<Product> comparison)
 ```
 
-It rearranges the same array in descending order. The comparator itself must follow its normal contract. No printing, timing, `Arrays.sort()`, or sorting ascending and then reversing.
+We sort through the abstract Product class without custom type parameters. Keep Comparable<Product> and Comparator<Product>. Each sort rearranges the same array in descending order. The comparator itself must follow its normal contract. No printing, timing, `Arrays.sort()`, or sorting ascending and then reversing.
 
 Other shared methods:
 
@@ -66,7 +66,7 @@ The options object exposes `getFilePath()`, `getCompareType()`, and `getSortType
 
 ## Testing without waiting for another member
 
-Members 2, 3, and 4 can test their sorts using `Integer[]` with `Comparator.naturalOrder()`. The expected order is largest to smallest. This does not depend on the product classes being finished.
+Test sorts using `Product[]` containing actual subclasses such as Jeans and Shoes, with OriginalPriceComparator, UpdatedPriceComparator, and natural ordering through Product.compareTo(). The expected order is largest to smallest. Do not use Integer arrays or custom generic sort helpers.
 
 Member 1 can create products and test file reading directly. Member 4 can test argument parsing separately. Member 2 can test output with a local test subclass of Product that implements the difference calculation. Member 3 can test timing with a standalone Runnable. Keep temporary substitutes out of the production files.
 
@@ -82,9 +82,9 @@ Test empty arrays, one item, duplicates, already sorted arrays, and mixed values
 - Options and type letters are case-insensitive and can appear in any order. Explain missing or invalid arguments clearly
 - Member 1 reports file/data errors, Member 4 reports argument errors, and Member 2 handles expected errors in the driver with useful messages
 - Read data and select the comparison before starting the timer. Print results after stopping it. Include a unit, such as milliseconds
-- Each algorithm must support benchmarking through its selected `-s` option If we compare several runs, start each with the same unsorted input, and copy arrays outside the timed section
+- Each algorithm must support benchmarking through its selected `-s` option. If we compare several runs, start each with the same unsorted input, and copy arrays outside the timed section
 - For up to 10 products, print all. For 11 to 1,000, print first, last, and every hundredth in between. Above 1,000, use every thousandth instead. Use one-based row positions and avoid printing the last row twice
-- Show product type, original price, updated price, and calculated differenc
+- Show product type, original price, updated price, and calculated difference
 - Heap Sort must be significantly different from the other five. Ask the instructor if there is any uncertainty about approval
 - The custom sort report needs original explanation, pseudocode, operation counting for the steps, and complexity analysis
 
@@ -103,11 +103,11 @@ java -jar Sort.jar -fres/products1.txt -td -sb
 java -jar Sort.jar -sQ -To -fres/products2.txt
 ```
 
-The b, i, s, and z options work in this build. The m and q options report that their algorithms are unfinished
+All six options work in this build. Quick Sort uses Median-of-3 pivot selection. Timing remains outside the algorithms.
 
 ## Final submission
 
-Member 3 handles packaging once everyone's code is merged and checked:
+We package the project after reviewing the integrated code:
 
 1. Run the application from Eclipse using Java 21. Check all six algorithms and all three comparisons
 2. Use **File > Export > Java > Runnable JAR file**, select the AppDriver launch configuration, and name it `Sort.jar`
@@ -118,3 +118,9 @@ Member 3 handles packaging once everyone's code is merged and checked:
 7. Only one person submits the group package, check Brightspace for the deadline
 
 
+
+## Last checks before uploading
+
+See [docs/SubmissionChecklist.md](docs/SubmissionChecklist.md). The group evaluation
+must be completed together. Every member must download and check the actual D2L
+submission. A prepared ZIP is not proof that Eclipse import or the uploaded copy works.
