@@ -1,33 +1,47 @@
-# Application checks
+# My testing notes
 
-Bubble, Insertion, Selection, ResultPrinter, and AppDriver are implemented. The integrated parser, products, reader, Heap Sort, and timer now work. Adeeb's Merge and Quick are now integrated using Product arrays.
+I use these checks to make sure the sorts, output, and command-line options work
+together. I keep them outside src so they are not part of the runnable application.
 
-## Run the independent checks
+## How I run the checks
 
-Use JDK 21. Open Git Bash in the cloned project folder and run:
+I open Git Bash in the project folder with JDK 21 and run:
 
 ```bash
 mkdir -p build/checks
 javac --release 21 -d build/checks src/products/*.java src/utilities/*.java src/appDomain/*.java tests/*.java
-java -cp build/checks JoaquinChecks
-```
-
-The checks cover empty and single-element arrays, duplicates, ascending and descending inputs, random values, the actual price comparators, natural Product ordering, product objects, and output sizes around 10 and 1,000. They also check the driver's comparison and sorting routes with a test-only Product subclass.
-
-`Arrays.sort()` appears only in the test oracle to calculate expected results. The assignment's production sorts do not call it.
-
-These checks now reflect the integrated build. The driver checks execute all six algorithms and use Product.compareTo for calculated difference. The test class is outside `src`, so it does not change the Eclipse source path or become part of the runnable application.
-
-## Verified integration
-
-All six algorithms pass all three comparisons on products1 and products2. Merge, Quick, and Heap also pass on the million-product products3 file. IntegrationChecks covers small edge cases, normal comparison signs, object preservation, parser case/order, reader errors, and timer execution. See IntegrationReport.md for results and remaining submission checks. Actual Eclipse GUI import still needs a manual check.
-
-## Combined checks
-
-After compiling the production files and both standalone test files as above, run:
-
-```bash
+java -Xmx768m -cp build/checks JoaquinChecks
 java -Xmx768m -cp build/checks IntegrationChecks
+java -Xmx768m -cp build/checks HeapMeasurementChecks
 ```
 
-Christian's original JUnit 5 tests are preserved in `test/products/ProductTest.java`. To run them in Eclipse, add the `test` folder as a source folder and add the JUnit 5 library to the build path. They are kept outside the default production source path so the application has no JUnit runtime dependency.
+I check empty arrays, one product, duplicates, repeated objects, random inputs,
+and arrays that start in ascending or descending order. I also check the printed
+row positions, invalid inputs, and argument order and case.
+
+I use the actual price comparators and Product.compareTo for the calculated
+difference. I use Arrays.sort only inside the checks to get the expected result.
+I do not use it inside any sorting algorithm.
+
+## What I check for descending order
+
+I check that each product is greater than or equal to the next one according to
+the selected comparison. I also check that no products are lost or added.
+
+I use the recorded test coverage below when reviewing the submission:
+
+| Dataset | Sorts | Comparisons | Recorded result |
+| --- | --- | --- | --- |
+| products1, 10 products | All six | Original, updated, difference | Passed |
+| products2, 1000 products | All six | Original, updated, difference | Passed |
+| products3, 1000000 products | Merge, Quick, Heap | Original, updated, difference | Passed |
+
+I have no completed full-million test result for Bubble, Insertion, or Selection.
+I still need to check the final project in a fresh Eclipse workspace and verify
+the actual ZIP downloaded from D2L.
+
+## JUnit checks
+
+I run test/products/ProductTest.java in Eclipse by adding test as a source folder
+and JUnit 5 to the build path. I keep JUnit outside the application source path
+so the runnable JAR does not need it.
