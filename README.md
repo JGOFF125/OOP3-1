@@ -1,126 +1,173 @@
-# OOP3-1
+# OOP III Assignment 1
 
-Assignment 1 uses Eclipse and Java 21.
+We use Eclipse and Java 21 to sort Product arrays directly from largest to smallest.
+All six algorithms are integrated on main. The code checks passed; our group
+evaluation, fresh Eclipse import, and final submission checks still need sign-off.
 
-We have integrated all four parts of the project. All six sorts use Product arrays and work with the real reader, parser, comparisons, timer, and output. Final Eclipse GUI import and submission packaging still need to be checked.
+## Run in Eclipse
 
-Read [docs/IntegrationReport.md](docs/IntegrationReport.md) for the source of each part, fixes, verified checks, and remaining work.
+1. Configure a JDK 21 under Window > Preferences > Java > Installed JREs and select
+   it for the JavaSE-21 execution environment
+2. Clone the repository or extract the complete project ZIP
+3. Use File > Import > General > Existing Projects into Workspace
+4. Select the folder containing .project and import OOP3-1
+5. Run src/appDomain/AppDriver.java as a Java Application
+6. In Run Configurations > Arguments, use:
 
-## Open it in Eclipse
+```text
+-fres/products1.txt -td -sq
+```
 
-1. Install a JDK 21, then add it under **Window > Preferences > Java > Installed JREs**. Under **Execution Environments**, select that JDK for **JavaSE-21**.
-2. Clone this repo using GitHub Desktop, or download the ZIP and extract it.
-3. In Eclipse, use **File > Import > General > Existing Projects into Workspace**.
-4. Select the cloned or extracted folder containing `.project`. Import `OOP3-1`.
-5. Run `src/appDomain/AppDriver.java` as a **Java Application**. Use `-fres/products1.txt -td -sz` in the Arguments tab to run Heap Sort.
+We keep the working directory set to the project folder so relative paths resolve.
+OOP3-1.launch provides a sample configuration. Import the complete project, not
+just src. The Eclipse project metadata is included in Git.
 
-There is also an `OOP3-1.launch` configuration with the smallest dataset and sample arguments. The working directory should be the project folder. Do not import just the `src` folder.
+## Options and sorting
 
-## Who does what?
+We attach each value directly to its option. Option letters and values are
+case-insensitive and can appear in any order; the file path keeps its case.
 
-| Member | Work | Files |
-| ----- | --- | --- |
-| 1 - Christian | Product model, seven product types, comparisons, and file reading | Everything in `src/products/`, plus `ProductFileReader.java` |
-| 2 - Joaquin | Bubble, Insertion, Selection, output, and connecting the application | `BubbleSort.java`, `InsertionSort.java`, `SelectionSort.java`, `ResultPrinter.java`, `AppDriver.java` |
-| 3 - Adeeb | Merge, Quick with Median-of-3, timer, JAR export, and final ZIPs | `MergeSort.java`, `QuickSort.java`, `BenchmarkRunner.java`; final packaging |
-| 4 - Sebastian | Heap Sort, command-line parsing, and custom algorithm report | `HeapSort.java`, `CommandLineOptions.java`, `docs/CustomSortAnalysis.md` |
+| Option | Values |
+| --- | --- |
+| -f | Absolute or relative input file path |
+| -t | o: original price, u: updated price, d: calculated difference |
+| -s | b: Bubble, i: Insertion, s: Selection, m: Merge, q: Quick, z: Heap |
 
-Other utility Java files listed above are in `src/utilities/`.
-
-This balances smaller classes, simpler sorts, harder sorts, writing, and integration. If someone gets stuck, ask in the group chat early so we can adjust the work.
-
-## Rules for working separately
-
-- Create your own branch before editing. Use `member-1`, `joaquin`, `member-3`, or `member-4`, or agree on names in chat.
-- Only change your assigned files. Ask in chat before changing someone else's files or a shared method signature.
-- Keep the public signatures already in the setup. Add private helper methods as needed.
-- Keep `.project`, `.classpath`, and `.settings` in Git. These are needed to import the Eclipse project.
-- Do not push generated `bin` files, your Eclipse workspace `.metadata`, or a finished JAR into the source repository.
-- Commit small working changes. Push your branch and open a pull request into `main`.
-- I will check the pull requests before merging. Pull the latest `main` into your branch regularly.
-- Do not delete someone else's files or test data.
-- Write useful Javadoc for every class and method. Update the starter descriptions to explain your actual implementation.
-
-## Shared interfaces
-
-Every sort uses this signature:
+Every sort accepts:
 
 ```java
 public static void sort(Product[] items, Comparator<Product> comparison)
 ```
 
-We sort through the abstract Product class without custom type parameters. Keep Comparable<Product> and Comparator<Product>. Each sort rearranges the same array in descending order. The comparator itself must follow its normal contract. No printing, timing, `Arrays.sort()`, or sorting ascending and then reversing.
+We use Product arrays throughout the sorting layer, without custom type parameters.
+Product implements Comparable<Product> for the calculated difference. Separate
+Comparator<Product> classes compare original and updated prices. Both interfaces
+keep their normal negative, zero, and positive return values.
 
-Other shared methods:
+We place larger values first inside each algorithm. We do not sort ascending and
+reverse afterward. Quick uses a Median-of-3 pivot. Heap uses a min-heap to move
+smaller products to the end. Timing stays outside the algorithms and includes
+sorting only, with results printed afterward in milliseconds.
 
-```java
-ProductFileReader.read(String path)                 // Product[], throws IOException
-CommandLineOptions.parse(String[] args)              // CommandLineOptions
-ResultPrinter.print(Product[] items)                 // void
-BenchmarkRunner.measureNanos(Runnable sortingTask)    // long
-```
+We print all products up to 10. Up to 1,000, we print the first, last, and every
+hundredth row in between. Above 1,000, we use every thousandth row instead.
 
-The product constructor takes original price first, updated price second. Its getters return `double`. `calcRealDiff()` gives the adjusted absolute difference. `compareTo()` compares those differences using the normal Comparable contract.
+## Input data
 
-The options object exposes `getFilePath()`, `getCompareType()`, and `getSortType()`. The parser must return lowercase type characters while keeping the file path unchanged.
-
-## Testing without waiting for another member
-
-Test sorts using `Product[]` containing actual subclasses such as Jeans and Shoes, with OriginalPriceComparator, UpdatedPriceComparator, and natural ordering through Product.compareTo(). The expected order is largest to smallest. Do not use Integer arrays or custom generic sort helpers.
-
-Member 1 can create products and test file reading directly. Member 4 can test argument parsing separately. Member 2 can test output with a local test subclass of Product that implements the difference calculation. Member 3 can test timing with a standalone Runnable. Keep temporary substitutes out of the production files.
-
-Test empty arrays, one item, duplicates, already sorted arrays, and mixed values. After merging, also test actual products using all three comparisons. Compiling alone does not mean the assignment is complete.
-
-## Assignment requirements
-
-- Use a `Product[]` array, not an ArrayList. Read the first line to get its size
-- Product adjustments: Jeans 0.5, TShirts 0.2, Skirts 0.1, Dresses 0.6, Shorts 0.3, Jackets 0.7, Shoes 0.4
-- File options: `-f` followed directly by the file path
-- Comparison options: `-to` original price, `-tu` updated price, `-td` adjusted difference
-- Sort options: `-sb` Bubble, `-si` Insertion, `-ss` Selection, `-sm` Merge, `-sq` Quick, `-sz` Heap
-- Options and type letters are case-insensitive and can appear in any order. Explain missing or invalid arguments clearly
-- Member 1 reports file/data errors, Member 4 reports argument errors, and Member 2 handles expected errors in the driver with useful messages
-- Read data and select the comparison before starting the timer. Print results after stopping it. Include a unit, such as milliseconds
-- Each algorithm must support benchmarking through its selected `-s` option. If we compare several runs, start each with the same unsorted input, and copy arrays outside the timed section
-- For up to 10 products, print all. For 11 to 1,000, print first, last, and every hundredth in between. Above 1,000, use every thousandth instead. Use one-based row positions and avoid printing the last row twice
-- Show product type, original price, updated price, and calculated difference
-- Heap Sort must be significantly different from the other five. Ask the instructor if there is any uncertainty about approval
-- The custom sort report needs original explanation, pseudocode, operation counting for the steps, and complexity analysis
-
-## Run the finished application
-
-In Eclipse, open **Run > Run Configurations > Arguments** and use:
+The first line gives the product count and determines the Product array size.
+Each remaining row contains a product type and two prices:
 
 ```text
--fres/products1.txt -td -sb
+2
+Jeans 10.00 20.00
+Shoes 25.00 15.00
 ```
 
-After exporting the finished runnable JAR:
+| Product | Difference adjustment |
+| --- | --- |
+| Jeans | 0.5 |
+| TShirts | 0.2 |
+| Skirts | 0.1 |
+| Dresses | 0.6 |
+| Shorts | 0.3 |
+| Jackets | 0.7 |
+| Shoes | 0.4 |
+
+Each subclass returns adjustment * abs(original price - updated price).
+The supplied files in res contain 10, 1,000, and 1,000,000 products.
+We also accept other files using the same format.
+
+## Checks completed
+
+The tested code snapshot is cd37f2a. The README update does not change code.
+
+- Java 21 compilation with --release 21 -Xlint:all passed
+- All 17 Product JUnit tests passed
+- IntegrationChecks passed 18,447,516 assertions
+- All six algorithms passed all three comparisons on products1 and products2
+- Merge, Quick, and Heap passed all three comparisons on products3
+- The packaged runnable JAR passed 45 dataset/algorithm/comparison combinations,
+  including paths with spaces, an external working directory, and input errors
+- We checked empty arrays, single products, duplicates, repeated objects, ascending
+  input, descending input, random inputs, and preservation of every product
+- HeapMeasurementChecks reproduces the Product-based counts in the Heap report
+
+We have not completed full-million runs with Bubble, Insertion, or Selection.
+Their smaller-file and edge checks passed. Fresh Eclipse GUI import and checking
+the actual D2L upload remain manual steps.
+
+For the standalone checks, use JDK 21 in Git Bash or another shell that expands
+the source file patterns:
+
+```bash
+mkdir -p build/checks
+javac --release 21 -Xlint:all -d build/checks src/products/*.java src/utilities/*.java src/appDomain/*.java tests/*.java
+java -Xmx768m -cp build/checks JoaquinChecks
+java -Xmx768m -cp build/checks IntegrationChecks
+java -Xmx768m -cp build/checks HeapMeasurementChecks
+```
+
+To run test/products/ProductTest.java in Eclipse, add test as a source folder
+and add the JUnit 5 library. The production application has no JUnit dependency.
+
+## Runnable JAR
+
+In Eclipse, use File > Export > Java > Runnable JAR file, choose the AppDriver
+launch configuration, and export Sort.jar.
+
+From the project folder, run:
 
 ```text
-java -jar Sort.jar -fres/products1.txt -td -sb
-java -jar Sort.jar -sQ -To -fres/products2.txt
+java -jar Sort.jar -fres/products1.txt -td -sq
+java -jar Sort.jar -sZ -To -fres/products2.txt
 ```
 
-All six options work in this build. Quick Sort uses Median-of-3 pivot selection. Timing remains outside the algorithms.
+We can also build it with JDK 21 from Git Bash:
+
+```bash
+mkdir -p build/app dist
+javac --release 21 -d build/app src/products/*.java src/utilities/*.java src/appDomain/*.java
+jar --create --file dist/Sort.jar --main-class appDomain.AppDriver -C build/app .
+java -jar dist/Sort.jar -fres/products1.txt -td -sq
+```
+
+Generated classes, build folders, and JARs are excluded from Git. A GitHub source
+ZIP therefore does not include the runnable JAR or completed evaluation.
 
 ## Final submission
 
-We package the project after reviewing the integrated code:
+Before uploading, we need to:
 
-1. Run the application from Eclipse using Java 21. Check all six algorithms and all three comparisons
-2. Use **File > Export > Java > Runnable JAR file**, select the AppDriver launch configuration, and name it `Sort.jar`
-3. Run the JAR from a terminal and verify its output and argument errors
-4. Zip the complete Eclipse project folder using File Explorer. Include `.project`, `.classpath`, `.settings`, `src`, and `res`. Do not zip only the source folder
-5. Test importing that project ZIP into a fresh Eclipse workspace and run it.
-6. Include `Sort.jar`, the complete project ZIP, the finished custom sort report, and the completed marking criteria in the final `A1<GroupName>.zip`
-7. Only one person submits the group package, check Brightspace for the deadline
+1. Review the custom-sort explanation and operation counts together
+2. Complete the marking criteria with all group members present and save it
+   under our actual group name
+3. Import the complete project ZIP into a fresh Eclipse workspace with Java 21
+   and verify the project and final JAR
+4. Put these files into A1 followed by our actual group name, ending in .zip:
+   - Sort.jar
+   - A separate ZIP of the complete Eclipse project, including .project,
+     .classpath, .settings, src, and all datasets in res
+   - The custom-sort report
+   - The completed marking criteria document
+5. Submit one group package before the deadline shown on D2L
+6. Each complete the peer assessment as instructed
+7. Each download and check the actual last-submitted D2L ZIP independently
 
+The prepared review package contains a blank marking form. We must replace it
+with our completed group evaluation before submitting. We cannot count the
+review package as group sign-off or proof that the uploaded copy works.
 
+See [SubmissionChecklist](docs/SubmissionChecklist.md) for the final checks and
+[IntegrationReport](docs/IntegrationReport.md) for the implementation and test details.
 
-## Last checks before uploading
+## Contributions
 
-See [docs/SubmissionChecklist.md](docs/SubmissionChecklist.md). The group evaluation
-must be completed together. Every member must download and check the actual D2L
-submission. A prepared ZIP is not proof that Eclipse import or the uploaded copy works.
+| Member | Main responsibilities |
+| --- | --- |
+| Christian | Product hierarchy, comparators, file reader |
+| Joaquin | Bubble, Insertion, Selection, output, AppDriver integration |
+| Adeeb | Merge, Median-of-3 Quick, timing, final packaging |
+| Sebastian | Heap, argument parsing, custom-sort report |
+
+We review shared changes together, keep meaningful Javadoc, and preserve each
+other's work when integrating updates.
